@@ -139,9 +139,11 @@
 				<button id="get-goods" class="mui-btn mui-btn-green mui-btn-block" @click="getGoods">扫一扫取货</button>
 			</div>
 		</div>
+		<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js"></script>
 		<script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
 		<script type="text/javascript" src="js/vue.min.js"></script>
 		<script type="text/javascript" src="js/global.js" ></script>
+		<script type="text/javascript" src="js/sha1.js"></script>
 		<script>
 			var vm = new Vue({
 				el: "#app",
@@ -176,6 +178,7 @@
 			function getOrderData(param) {
 				$.ajax({
 					url:' http://qpg.vlusi.com/api/api.php',
+					type:'post',
 					data:{
 					    act:'act_order_detail',
 						token:param.token,
