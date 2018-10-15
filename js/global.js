@@ -55,5 +55,10 @@ function transformParams(callback) {
         var temp = value.split('=');
         param[temp[0]] = temp[1];
     });
-    callback(param);
+    if(callback) {
+        callback(param);
+    }
+    else {
+        return param;
+    }
 }

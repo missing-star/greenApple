@@ -38,7 +38,7 @@
                     selectThis:function (event) {
                         app.selectedTime = $(event.target).parent().text();
                         mui.openWindow({
-							url:'order-confirm.html?time=' + app.selectedTime
+							url:'order-confirm.html?time=' + app.selectedTime +'&date=' + transformParams().date
 						});
                     }
 				}
