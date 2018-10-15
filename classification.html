@@ -107,6 +107,7 @@
 			$(function() {
 			    //数量增加
 				mui("body").on('tap', '.add', function() {
+				    //加入购物车
 					var num = parseInt($(this).prev().text());
 					if($(this).prev().text() == '0') {
 						$(this).prev().text(++num);

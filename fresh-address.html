@@ -26,7 +26,7 @@
 			<div class="right">
 				<div >
 					   <div v-for='(itemshow,index) in tabshow' v-show=" index == num"  style="height: 100%;">
-					   	<div class="r-for" v-for='(items,indexs) in itemshow'  v-bind:class="{forchange:indexs==forchange}" @click="fors(indexs)">
+					   	<div @click="chooseSelfLiftingBefore(items.id)" class="r-for" v-for='(items,indexs) in itemshow'  v-bind:class="{forchange:indexs==forchange}" @click="fors(indexs)">
 					   	<span class="r-span">{{items.name}}</span>
 					   	<br />
 					   	<span class="r-span2">{{items.des}}</span>
@@ -42,14 +42,15 @@
 					forchange:1,
 					num:1,
 					tabs:["玄武区","秦淮区","雨花台区"],
-					tabshow:[[{name:"华农庙生鲜店",des:"华农庙生鲜店"}]],
+					tabshow:[[{id:1,name:"华农庙生鲜店",des:"华农庙生鲜店"}]],
 					//纬度
 					lat:0,
 					//经度
 					lng:0,
 					//城市名称
-					city:'未知'
-				
+					city:'未知',
+					//选中的自提点id
+					pointId:''
 				},
 				methods:{
 					tab:function(index){
@@ -58,7 +59,18 @@
 					},
 					fors:function(index){
 						 this.forchange=index;
-					}
+					},
+                    chooseSelfLiftingBefore:function (pointId) {
+					    app.pointId = pointId;
+                        var u = navigator.userAgent;
+                        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                        if (isAndroid == true) {
+                            android.chooseSelfLifting();
+                        } else {
+                            chooseSelfLifting()
+                        }
+                    }
 					
 				},
 				computed:{
@@ -90,7 +102,7 @@
                                 app.tabs.push(value.district_name);
                                 var list = [];
                                 data.pickup_points.forEach(function (item,i) {
-                                    list.push({name:item.shop_name,des:item.address});
+                                    list.push({id:item.id,name:item.shop_name,des:item.address});
                                 });
                                 app.tabshow.push(list);
                             });
@@ -101,6 +113,14 @@
                     }
                 });
             }
+
+            /**
+			 * 选择自提点返回
+             */
+			function chooseSelfLifting() {
+
+			}
+
             $(function () {
                 transformParams(getSelfLifting);
             });

@@ -51,23 +51,68 @@
 	</head>
 	<body>
 		<div id="app">
-			<div class="show"  v-for="item in tab">
-				<img src="img/manjian.png" 	height="70%" />			
-				<span class="span1">满39~50元享折扣</span>
+			<div class="show"  v-for="item in list" @click="gonInneractivity(item.id)">
+				<img :src="item.act_img" 	height="70%" />
+				<span class="span1">满{{item.min_amount}}~{{item.max_amount}}元享折扣</span>
 				<span class="spanr">8.8折</span>
 				<br />
-				<span class="span2">活动时间:仅限今日</span>
+				<span class="span2">活动时间:{{item.start_time}}~{{item.end_time}}</span>
 				
 			</div>
 		</div>
 			
 			<script type="text/javascript">
-				new Vue({
+				var app = new Vue({
 					el:"#app",
 					data:{
-						tab:["123","232","343"]
+						list:[],
+						//活动id
+                        actId:''
+					},
+					methods:{
+                        gonInneractivity:function (actId) {
+                            app.actId = actId;
+                            var u = navigator.userAgent;
+                            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                            if (isAndroid == true) {
+                                android.goActivity();
+                            } else {
+                                goActivity()
+                            }
+                        }
 					}
-				})
+				});
+				$(function () {
+					transformParams(getActivities);
+                });
+
+				function getActivities(param) {
+					$.ajax({
+						url:' http://qpg.vlusi.com/api/api.php',
+						type:'post',
+						data:{
+						    act:'activity_list',
+							token:param.token,
+							signature:SHA2(`act=activity_list&supplier_id=${param.supplier_id}${param.transfer_key}`),
+							supplier_id:param.supplier_id
+						},
+						success:function (data) {
+						    if(data.code == 200) {
+                                app.list = data.data.filter(function (value,index) {
+                                    return value.act_id == '5';
+                                });
+							}
+                        },
+						error:function (xhr,status,info) {
+							mui.toast('服务器异常！')；
+                        }
+					})
+                }
+
+                function goActivity() {
+
+				}
 			</script>
 	</body>
 </html>

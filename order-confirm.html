@@ -130,14 +130,32 @@
 						token:param.token,
                         supplier_id:param.supplier_id,
                         sel_cartgoods:param.sel_cartgoods,
-                        signature:param.signature
-					}
+                        signature:SHA2(`act=order_checkout&sel_cartgoods=${param.sel_cartgoods}&supplier_id=${param.supplier_id}${transfer_key}`)
+					},
+					success:function (data) {
+						
+                    }
 				})
             }
 
             $(function () {
 				transformParams(getOrderInfo);
             });
+
+			function submitOrderBefore() {
+                var u = navigator.userAgent;
+                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isAndroid == true) {
+                    android.submitOrder();
+                } else {
+                    submitOrder()
+                }
+            }
+			
+			function submitOrder() {
+				
+            }
 		</script>
 	</body>
 

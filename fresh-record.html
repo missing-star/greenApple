@@ -91,9 +91,7 @@
             data: {
                 act: 'get_account_log',
                 token: param.token,
-                signature: SHA2(`act=get_account_log&count=10&offset=${param.offset}&token=${param.token}${transfer_key}`),
-                offset: param.offset,
-                count: 10
+                signature: SHA2(`act=get_account_log&count=10&offset=${param.offset}&token=${param.token}${transfer_key}`)
             },
             success: function (data) {
                 if (data.code == 200) {

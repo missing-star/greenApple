@@ -153,17 +153,49 @@
 						this.invisible = !this.invisible;
 					},
 					getGoods: function() {
-						mui.confirm('确认取消订单？', '警告',['确认','取消'], function(e) {
-							if(e.index == 0) {
-								console.log("确定");
-							} else {
-								console.log("取消");
-							}
-						})
+						// mui.confirm('确认取消订单？', '警告',['确认','取消'], function(e) {
+						// 	if(e.index == 0) {
+						// 		console.log("确定");
+						// 	} else {
+						// 		console.log("取消");
+						// 	}
+						// })
+                        var u = navigator.userAgent;
+                        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                        if (isAndroid == true) {
+                            android.submitOrder();
+                        } else {
+                            submitOrder()
+                        }
 					}
 				}
 			});
 			mui.init();
+
+			function getOrderData(param) {
+				$.ajax({
+					url:' http://qpg.vlusi.com/api/api.php',
+					data:{
+					    act:'act_order_detail',
+						token:param.token,
+						order_sn:param.order_sn,
+                        signature:SHA2(`act=act_order_detail&order_sn=${param.order_sn}&token=${param.token}${transfer_key}`)
+					},
+					success:function(data) {
+					    if(data.code == 200) {
+
+						}
+					},
+					error:function(xhr,status,info) {
+
+					}
+				})
+            }
+
+            $(function () {
+				transformParams(getOrderData);
+            });
 		</script>
 	</body>
 
