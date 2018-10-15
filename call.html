@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们</title>
+    <link rel="stylesheet" href="assest/mui/css/mui.min.css"/>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
+    <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="js/global.js"></script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+
+        #speak {
+            height: 100%;
+            padding: 6%;
+
+        }
+
+        span {
+            display: inline-block;
+        }
+
+        p.info {
+            word-break: break-all;
+        }
+        body{
+            background: #FFFFFF !important;
+        }
+        footer{
+            margin-top: 15px;
+        ;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div id="speak">
+        <header>
+            <h3>企业资料</h3>
+            <p class="info">
+                {{enterpriseInfo}}
+            </p>
+        </header>
+        <footer>
+            <h3>联系方式</h3>
+            <p class="phone">
+                客服电话：{{phone}}
+            </p>
+            <p class="email">
+                邮箱：{{email}}
+            </p>
+        </footer>
+    </div>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            //企业资料
+            enterpriseInfo: '',
+            //客服电话
+            phone: '',
+            //邮箱
+            email: ''
+        }
+    });
+
+    //获取企业信息
+    function getEnterpriseInfo(param) {
+        $.ajax({
+            url:'http://qpg.vlusi.com/api/api.php',
+            type:'post',
+            data:{
+                act:'contact_content',
+                token: param.token,
+                signature: SHA2(`act=contact_content&token=${token}${param.transfer_key}`)
+            },
+            dataType:'json',
+            success:function(data) {
+                app.enterpriseInfo = data.enterpriseInfo;
+                app.phone = data.phone;
+                app.email = data.email;
+            },
+            error:function(xhr,status,info) {
+                mui.toast('服务器异常:' + info);
+            }
+        })
+    }
+
+    $(function () {
+        transformParams(getEnterpriseInfo);
+    });
+</script>
+</body>
+</html>

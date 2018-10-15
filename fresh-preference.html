@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>满减优惠</title>
+		<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js" ></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>	
+		<script type="text/javascript" src="js/global.js" ></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<style type="text/css">
+			html,body{
+				height: 100%;
+				font-family: "微软雅黑";
+			}
+			.show{
+				height: 6em;
+				width: 100%;
+				border-bottom: 0.5px solid #d2d2d2;
+			}
+			.show img{
+				margin: 4.2% 4% 0% 7%;
+				float: left;
+				
+			}
+			.span1{
+				font-size: 1em;
+				color: #ff4040;
+				display: inline-block;
+				margin: 6% 0% 0% 4%;
+				overflow: hidden;
+				width: 40%;
+			}
+			.span2{
+				display: inline-block;
+				margin: 0% 0% 4% 4% ;
+				font-size: 0.5em;
+				color: #999999;
+				width: 35%;
+			}
+			.spanr{
+				display: inline-block;
+				float: right;
+				font-size: 2em;
+				color: #ff4040;
+				margin: 5% 3% 5% 0%;
+				
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="show"  v-for="item in tab">
+				<img src="img/manjian.png" 	height="70%" />			
+				<span class="span1">满39~50元享折扣</span>
+				<span class="spanr">8.8折</span>
+				<br />
+				<span class="span2">活动时间:仅限今日</span>
+				
+			</div>
+		</div>
+			
+			<script type="text/javascript">
+				new Vue({
+					el:"#app",
+					data:{
+						tab:["123","232","343"]
+					}
+				})
+			</script>
+	</body>
+</html>

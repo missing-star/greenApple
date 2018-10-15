@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<title>分类</title>
+		<link rel="stylesheet" href="assest/mui/css/mui.css" />
+		<link rel="stylesheet" href="css/classification.css" />
+	</head>
+
+	<body>
+		<div class="mui-content" id="app">
+			<ul class="left">
+				<li v-bind:class="{active:index == nowIndex}" v-for="(item,index) in tabs">
+					<a href="javascript:;" @click="triggerActive(index)">{{item.name}}</a>
+					<ul v-bind:class="{invisible:!index == nowIndex || trigger}">
+						<li v-bind:class="{'child-list':true,active:nowIndexChild.toString() == [index,i].toString()}" v-for="(child,i) in item.childs" @click="triggerActiveChild(index,i,child.id)">
+							<i class="dot">&bull;</i> {{child.name}}
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<div class="right active  mui-scroll-wrapper active" id="scroller">
+				<div class="mui-scroll">
+					<ul class="mui-table-view" v-for="goods in goodsList">
+						<li @click="goDetail(goods.goods_id)" class="mui-table-view-cell mui-media">
+							<a href="javascript:;">
+								<img class="mui-media-object mui-pull-left" :src="goods.goods_thumb">
+								<div class="mui-media-body">
+									<p class="mui-ellipsis goods-name">{{goods.goods_name}}</p>
+									<p class='goods-num mui-ellipsis'>月销999件</p>
+									<p class="goods-spec">
+										<span v-if="goods.is_promote == 1" class="special-price">特价</span>
+										<span v-if="goods.is_buy == 1" class="only-one">限购{{goods.buymax}}份</span>
+									</p>
+									<p class="goods-price">
+										<span class="goods-now-price">￥{{goods.shop_price}}</span>
+										<span class="goods-pre-price">￥{{goods.market_price}}</span>
+									</p>
+								</div>
+							</a>
+							<p class="calculate">
+								<span class="invisible reduce">
+								<img src="img/形状2.png" />
+							</span>
+								<span class="invisible">0</span>
+								<span class="add">
+								<img src="img/形状2拷贝.png" />
+							</span>
+							</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="shopping-cart-container">
+				<span v-if="goodsNum != 0" class="mui-badge mui-badge-danger circle-num">{{goodsNum}}</span>
+				<img src="img/购物车.png" class="shopping-cart" />
+			</div>
+		</div>
+		<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
+		<script type="text/javascript" src="js/pull-to-refresh.js"></script>
+		<script type="text/javascript" src="js/vue.min.js"></script>
+		<script type="text/javascript" src="js/sha1.js"></script>
+		<script type="text/javascript" src="js/global.js" ></script>
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data: {
+				    //登录返回的token
+				    token:'',
+					//签名
+                    transfer_key:'',
+				    //商家id
+                    supplier_id:'',
+					tabs: [],
+					tabContent: [],
+					nowIndex: 0,
+					nowIndexChild: [0, 0],
+					trigger: false,
+					//商品列表
+					goodsList:[],
+                    goodsNum:0
+				},
+				methods: {
+					triggerActive: function(index) {
+						if(index != this.nowIndex) {
+							this.nowIndex = index;
+							this.trigger = false;
+						} else {
+							this.trigger = !this.trigger;
+						}
+					},
+					triggerActiveChild: function(parIndex, childIndex,id) {
+						this.nowIndexChild = [parIndex, childIndex];
+						getGoodList(id,7);
+					},
+					//商品详情页
+                    goDetail:function (goodsId) {
+						mui.openWindow({
+							url:'goodsDetail?token='+app.token+'&signature='+app.signature+'&goodsId='+goodsId
+						});
+                    }
+				}
+			});
+			$(function() {
+			    //数量增加
+				mui("body").on('tap', '.add', function() {
+					var num = parseInt($(this).prev().text());
+					if($(this).prev().text() == '0') {
+						$(this).prev().text(++num);
+						$(this).prev().prev().show();
+						$(this).prev().show();
+					} else {
+						$(this).prev().text(++num);
+					}
+				});
+				//数量减少
+				mui("body").on('tap', '.reduce', function() {
+					var num = parseInt($(this).next().text());
+					if($(this).next().text() == '1') {
+						$(this).next().text(--num);
+						$(this).hide();
+						$(this).next().hide();
+					} else {
+						$(this).next().text(--num);
+					}
+				});
+				//请求数据
+				transformParams(getClassList);
+			});
+			//下拉回调函数
+			var downFunc = function() {
+				setTimeout(function() {
+					mui('#scroller').pullRefresh().endPulldownToRefresh(true);
+				}, 2000);
+			};
+			//上拉回调函数
+			var upFunc = function() {
+				setTimeout(function() {
+					mui('#scroller').pullRefresh().endPullupToRefresh(false);
+				}, 2000);
+			};
+			pullToRefresh("#scroller", downFunc, upFunc);
+            /**
+			 * 获取商家分类列表
+             */
+            function getClassList(param) {
+                app.token = param.token;
+                app.transfer_key = param.transfer_key;
+                $.ajax({
+                    type:"post",
+                    url:" http://qpg.vlusi.com/api/api.php",
+                    async:true,
+                    dataType:'json',
+                    data:{
+                        act:'category_list',
+                        token:param.token,
+                        supplier_id:param.supplier_id,
+                        signature:SHA2(`act=category_list&token=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
+                    },
+                    success:function(data) {
+                       app.tabs = data.data.map(function (item,index) {
+                           if(item.son) {
+                               return {
+                                   id:item.cat_id,
+                                   name:item.cat_name,
+                                   childs:item.son.map(function (son,i) {
+                                       return {
+                                           id:son.cat_id,
+                                           name:son.cat_name
+                                       }
+                                   })
+                               }
+						   }
+						   else {
+                               return {
+                                   id:item.cat_id,
+                                   name:item.cat_name
+                               }
+						   }
+                       });
+                    },
+                    error:function(xhr,status,info) {
+						mui.toast('服务器异常');
+                    }
+                });
+            }
+
+            /**
+			 * 获取对应分类的商品列表
+             */
+            function getGoodList(id,supplier_id) {
+                $.ajax({
+                    type:"post",
+                    url:" http://qpg.vlusi.com/api/api.php",
+                    async:true,
+                    dataType:'json',
+                    data:{
+                        act:'search_goods_list',
+                        token:app.token,
+						cat_id:id,
+						supplier_id:supplier_id,
+                        signature:SHA2(`act=search_goods_list&cat_id=${id}&supplier_id=${supplier_id}&token=${app.token}${app.transfer_key}`)
+                    },
+                    success:function(data) {
+                       app.goodsList = data.data;
+                    },
+                    error:function() {
+						mui.toast('服务器异常!');
+                    }
+                });
+            }
+		</script>
+	</body>
+
+</html>

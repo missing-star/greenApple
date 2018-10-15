@@ -1,0 +1,43 @@
+* {
+	box-sizing: border-box;
+	font-family: "微软雅黑";
+	color: #333;
+}
+
+body {
+	background-color: #FFFFFF;
+}
+
+.mui-content {
+	background-color: #FFFFFF;
+	line-height: 25px;
+	padding: 10px;
+}
+
+div.now-position {
+	padding: 10px;
+}
+
+div.now-position-title {
+	font-size: .8em;
+	height: 25px;
+	color: #999999;
+}
+
+div.now-position-name {
+	font-size: 1.2em;
+}
+
+div.city-list {
+	display: flex;
+	flex-wrap: wrap;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+div.city-item {
+	width: 25%;
+}
+
+div.now-position-top {
+	border-bottom: 1px solid #f0f0f0;
+}

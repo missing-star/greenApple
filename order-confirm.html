@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<title>订单确认</title>
+		<link rel="stylesheet" href="assest/mui/css/mui.css" />
+		<link rel="stylesheet" href="css/order-confirm.css" />
+	</head>
+
+	<body>
+		<div id="app" class="mui-content">
+			<div class="top-container">
+				<div class="top">
+					<div class="top-content">
+						<p class="first-p">
+							<img src="img/定位.png" />
+							<span>取货地址</span>
+						</p>
+						<p>{{marketName}}</p>
+						<p>{{address}}</p>
+						<p>联系电话：{{phone}}</p>
+					</div>
+				</div>
+				<div class="put-up-time">
+					<div class="list-item border-bottom">
+						<img src="img/取货日期.png" />
+						<span>预约取货日期</span>
+						<span class="time-font">{{preDate}}</span>
+					</div>
+					<div class="list-item">
+						<img src="img/取货时间.png" />
+						<span>预约取货时间</span>
+						<span class="time-font">{{preTime}}</span>
+						<i class="mui-icon mui-icon-arrowright right-icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="menu-ticket">
+				<div class="menu-title">
+					菜单小票
+				</div>
+				<div class="menu-content">
+					<table>
+						<tr class="first visible">
+							<td width="55%">品名</td>
+							<td width="15%">数量</td>
+							<td width="15%"></td>
+							<td width="15%">价格</td>
+						</tr>
+						<template v-for="n in 10">
+							<template v-if="n > 4">
+								<tr :class="{invisible:invisible}">
+									<td>优质猪后腿肉</td>
+									<td>1</td>
+									<td class="line-through">19.8</td>
+									<td>9.9</td>
+								</tr>
+							</template>
+							<template v-else>
+								<tr>
+									<td>优质猪后腿肉</td>
+									<td>1</td>
+									<td class="line-through">19.8</td>
+									<td>9.9</td>
+								</tr>
+							</template>
+						</template>
+						<tr class="first">
+							<td colspan="4">
+								<button v-bind:class="{invisible:!invisible,'btn-more':true}" @click="showTrigger">
+									共<span>13</span>件商品
+									<img src="img/下拉菜单.png" />
+								</button>
+								<button v-bind:class="{invisible:invisible,'btn-more':true}" @click="showTrigger">
+									折叠
+									<i class="mui-icon mui-icon-arrowup"></i>
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">金额总计</td>
+							<td colspan="2">￥385</td>
+						</tr>
+						<tr class="discount">
+							<td colspan="2">优惠</td>
+							<td colspan="2">满300减50</td>
+						</tr>
+						<tr>
+							<td colspan="2">实付金额</td>
+							<td colspan="2">￥335</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="bottom-button">
+			<button class="mui-btn mui-btn-green mui-btn-block">提交订单</button>
+		</div>
+		<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="js/sha1.js"></script>
+		<script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
+		<script type="text/javascript" src="js/vue.min.js" ></script>
+		<script type="text/javascript" src="js/global.js" ></script>
+		<script>
+			var app = new Vue({
+				el:"#app",
+				data:{
+					invisible:true,
+                    marketName:'xx',
+                    address:'xxx',
+                    address:'xxx',
+                    phone:'xxx',
+                    preDate:'2018-05-22',
+					preTime:'15:33'
+				},
+				methods:{
+					showTrigger: function() {
+						this.invisible = !this.invisible;
+					}
+				}
+			});
+
+			function getOrderInfo(param) {
+				$.ajax({
+					url:' http://qpg.vlusi.com/api/api.php',
+					type:'post',
+					data:{
+					    act:'order_checkout',
+						token:param.token,
+                        supplier_id:param.supplier_id,
+                        sel_cartgoods:param.sel_cartgoods,
+                        signature:param.signature
+					}
+				})
+            }
+
+            $(function () {
+				transformParams(getOrderInfo);
+            });
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,14 @@
+body{
+	background-color: #FFFFFF;
+}
+.mui-content{
+	background-color: #FFFFFF;
+}
+.spandiv{
+	color: #E83C3A;
+	font-size: 10px;
+	padding: 10px;
+}
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+	color: #4CCD56;
+}

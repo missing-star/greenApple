@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>生鲜定位</title>
+		<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js" ></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="http://api.map.baidu.com/api?v=2.0&ak=2VtfxFekC5Ewo57AMilDFDvsf24Gkth2"></script>
+		<script type="text/javascript" src="js/sha1.js"></script>
+		<script type="text/javascript" src="js/global.js" ></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/address.css"/>
+	</head>
+	<body>
+	
+		<div class="container-fluid" >
+			<div class="left">
+				<ul>
+					<li v-for="(item,index) in tabs" 
+            		:class="{active:index == num}"
+             		@click="tab(index)">{{item}}</li>
+					
+				</ul>
+			</div>
+			<div class="right">
+				<div >
+					   <div v-for='(itemshow,index) in tabshow' v-show=" index == num"  style="height: 100%;">
+					   	<div class="r-for" v-for='(items,indexs) in itemshow'  v-bind:class="{forchange:indexs==forchange}" @click="fors(indexs)">
+					   	<span class="r-span">{{items.name}}</span>
+					   	<br />
+					   	<span class="r-span2">{{items.des}}</span>
+					   </div>
+					   </div>
+				</div>
+		 	</div>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el:".container-fluid",
+				data:{
+					forchange:1,
+					num:1,
+					tabs:["玄武区","秦淮区","雨花台区"],
+					tabshow:[[{name:"华农庙生鲜店",des:"华农庙生鲜店"}]],
+					//纬度
+					lat:0,
+					//经度
+					lng:0,
+					//城市名称
+					city:'未知'
+				
+				},
+				methods:{
+					tab:function(index){
+						this.num=index;  
+						
+					},
+					fors:function(index){
+						 this.forchange=index;
+					}
+					
+				},
+				computed:{
+					
+				}
+			});
+            /**
+			 * 获取自提点
+             */
+            
+            function getSelfLifting(param) {
+                $.ajax({
+                    type:"post",
+                    url:" http://qpg.vlusi.com/api/api.php",
+                    async:true,
+                    dataType:'json',
+                    data:{
+                        act:'pickup_point_list',
+                        token:param.token,
+						city:param.city,
+						lat:param.lat,
+						lng:param.lng,
+                        supplier_id:param.supplier_id,
+                        signature:SHA2(`act=pickup_point_list&city=${param.city}&lat=${param.lat}&lng=${param.lng}&supplier_id=${param.supplier_id}&token=${token}${transfer_key}`)
+                    },
+                    success:function(data) {
+                        if(data.code == 200) {
+                            data.forEach(function(value,index,array) {
+                                app.tabs.push(value.district_name);
+                                var list = [];
+                                data.pickup_points.forEach(function (item,i) {
+                                    list.push({name:item.shop_name,des:item.address});
+                                });
+                                app.tabshow.push(list);
+                            });
+						}
+                    },
+                    error:function() {
+
+                    }
+                });
+            }
+            $(function () {
+                transformParams(getSelfLifting);
+            });
+		</script>
+	</body>
+</html>

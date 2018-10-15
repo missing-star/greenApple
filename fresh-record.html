@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消费记录</title>
+    <script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js"></script>
+    <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="js/sha1.js"></script>
+    <script type="text/javascript" src="js/global.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <style type="text/css">
+        body, html {
+            background-color: #F0F0F0;
+            height: 100%;
+            font-family: "微软雅黑";
+        }
+
+        .div-f {
+            height: 4em;
+            border-bottom: 1px solid #FFFFFF;
+        }
+
+        .f-span {
+            font-size: 1.3em;
+            line-height: 3em;
+            margin: 0 5%;
+            display: inline-block;
+            float: left;
+        }
+
+        .f-d {
+            margin: 1.5% 5%;
+            display: inline-block;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div v-for="item in recordList" class="div-f">
+				<span class="f-span">
+				{{item.date}}
+			</span>
+        <div class="f-d">
+            <span style="font-size: 1.2em;color: #57cd57;">-{{item.money}}￥</span>
+            <br/>
+            <span style="font-size: 0.5em; color: #999999;position: relative;left: 30%;">{{item.type}}</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            recordList: [
+                {
+                    date: '08-16',
+                    money: '2000.00',
+                    type: '购物消费'
+                },
+                {
+                    date: '08-16',
+                    money: '2000.00',
+                    type: '购物消费'
+                },
+                {
+                    date: '08-16',
+                    money: '2000.00',
+                    type: '购物消费'
+                },
+                {
+                    date: '08-16',
+                    money: '2000.00',
+                    type: '购物消费'
+                },
+                {
+                    date: '08-16',
+                    money: '2000.00',
+                    type: '购物消费'
+                }
+            ]
+        }
+    });
+
+    function getRecord(param) {
+        $.ajax({
+            url: 'http://qpg.vlusi.com/api/api.php',
+            dataType: 'json',
+            type: 'post',
+            data: {
+                act: 'get_account_log',
+                token: param.token,
+                signature: SHA2(`act=get_account_log&count=10&offset=${param.offset}&token=${param.token}${transfer_key}`),
+                offset: param.offset,
+                count: 10
+            },
+            success: function (data) {
+                if (data.code == 200) {
+                    data.data.forEach(function (value,index,array) {
+                       app.recordList.push({
+                           date:value.change_time,
+                           money:value.user_money,
+                           type:value.change_type_show
+                       });
+                    });
+                }
+            }
+        });
+    }
+
+    $(function () {
+        transformParams(getRecord);
+    })
+</script>
+</body>
+</html>

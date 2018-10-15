@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>选择城市</title>
+    <link rel="stylesheet" href="assest/mui/css/mui.css"/>
+    <link rel="stylesheet" href="css/city-choice.css"/>
+    <script type="text/javascript" src="js/sha1.js"></script>
+</head>
+
+<body>
+<div id="app" class="mui-content">
+    <div class="now-position now-position-top">
+        <div class="now-position-title">
+            当前定位
+        </div>
+        <div class="now-position-name">
+            {{currentCity}}
+        </div>
+    </div>
+    <div class="city-list">
+        <template v-for="(city,index) in cityList">
+            <div class="city-item">
+                <div class="now-position">
+                    <div class="now-position-title">
+                        <template v-if="index == 0">城市列表</template>
+                    </div>
+                    <div onclick="chooseCityBefore(city.region_id)" class="now-position-name">
+                        {{city.name}}
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            currentCity: '定位中...',
+            cityList: []
+        },
+        methods: {
+
+        },
+        computed: {
+            getLength: function () {
+                return this.cityList.length;
+            }
+        }
+    });
+
+    function showData(param) {
+        app.currentCity = param.currentCity;
+        $.ajax({
+            type: "post",
+            url: " http://qpg.vlusi.com/api/api.php",
+            async: true,
+            dataType: 'json',
+            data: {
+                act: 'region',
+                token: param.token,
+                signature: SHA2(`act=region&token=${token}${transfer_key}`)
+            },
+            success: function (data) {
+                $.each(data.info[0].child, function (index, city) {
+                    $.each(city.child, function (i, item) {
+                        app.cityList.push({region_id: item.region_id, name: item.region_name});
+                    });
+                });
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    $(function () {
+        transformParams(showData);
+    });
+    
+    function chooseCityBefore(region_id) {
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if (isAndroid == true) {
+            android.chooseCity(region_id);
+        } else {
+            chooseCity(region_id)
+        }
+    }
+    
+    function chooseCity(region_id) {
+        //region_id城市id
+    }
+</script>
+</body>
+
+</html>

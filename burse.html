@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>钱包充值</title>
+    <link rel="stylesheet" href="assest/mui/css/mui.min.css"/>
+    <script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js"></script>
+    <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
+    <script type="text/javascript" src="js/global.js"></script>
+    <script type="text/javascript" src="js/sha1.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <style type="text/css">
+        body, html {
+            height: 100%;
+            font-weight: 500;
+        }
+
+        #bg {
+            height: 23.5%;
+            width: 100%;
+            background-image: url(img/bg4.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+
+        }
+
+        #bg div {
+            margin: 6%;
+            display: inline-block;
+
+            font-size: 1.2em;
+        }
+
+        #app {
+            height: 100%;
+        }
+
+        #bd {
+            height: 35%;
+
+        }
+
+        #bd span {
+            padding: 5% 4%;
+            display: inline-block;
+            font-size: 1.275em;
+            height: 3em;
+
+        }
+
+        #bd div {
+            height: 80%;
+        }
+
+        #bd img {
+            width: 25%;
+            height: 5em;
+            margin: 4%;
+        }
+
+        #bend {
+            height: 41.5%;
+        }
+
+        #d-span {
+            padding: 4%;
+        }
+
+        #bend img {
+            width: 35.4%;
+            margin: 3% 7% 10% 7%;
+        }
+
+        #btn {
+            width: 100%;
+            background-color: #FB634E;
+            height: 3em;
+            text-align: center;
+            color: #FFFFFF;
+            line-height: 3em;
+            font-size: 1.2em;
+            position: fixed;
+            bottom: 0;
+        }
+
+        img.money-img.selected {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div id="bg">
+        <div>
+					<span>
+					我的余额(元)
+				</span>
+            <br/>
+            <span>
+					￥{{balance}}
+				</span>
+        </div>
+        <br/>
+        <div style="margin: 1% 6% 6% 6%;">
+					<span>
+					我的花菜劵
+				</span>
+            <br/>
+            <span>
+					{{huacai_voucher}}
+				</span>
+        </div>
+    </div>
+    <div>
+        <div id='bd'>
+            <span>余额充值</span>
+            <br/>
+            <div>
+                <img class="money-img" v-for="image in balanceList" @click="choose(image.value,$event,0)"
+                     :src="image.image"/>
+            </div>
+        </div>
+        <div id="bend">
+            <div id="d-span">
+                <span style="font-size: 1.2em;">花菜劵充值</span>
+                <span style="font-size: 0.5em;color: #ff4040;">此卷仅用于此APP支付100劵=1元，不可提现</span>
+            </div>
+            <div>
+                <img class="money-img" v-for="image in huacaiList" @click="choose(image.value,$event,1)"
+                     :src="image.image"/>
+            </div>
+
+        </div>
+
+    </div>
+    <div id="btn" onclick="goChargeBefore()">充值</div>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            //余额
+            balance: '',
+            //花菜券
+            huacai_voucher: '',
+            //选择的充值金额
+            chooseMoney: '',
+            //充值方式
+            chargeType: '',
+            //余额充值列表
+            balanceList: [
+                {
+                    image: 'img/100.png',
+                    value: 100
+                },
+                {
+                    image: 'img/150.png',
+                    value: 150
+                },
+                {
+                    image: 'img/200.png',
+                    value: 200
+                },
+                {
+                    image: 'img/300.png',
+                    value: 300
+                },
+                {
+                    image: 'img/500.png',
+                    value: 500
+                },
+            ],
+            //花菜券充值列表
+            huacaiList: [
+                {
+                    image: 'img/500huacai.png',
+                    value: 500
+                },
+                {
+                    image: 'img/1000huacai.png',
+                    value: 1000
+                }
+            ]
+        },
+        methods: {
+            choose: function (value, event, type) {
+                app.chargeType = type;
+                app.chooseMoney = value;
+                $('img.money-img').removeClass('selected');
+                $(event.target).addClass('selected');
+            }
+        }
+    });
+
+    function getUserMoney(param) {
+        $.ajax({
+            type: "post",
+            url: "http://qpg.vlusi.com/api/api.php",
+            async: true,
+            dataType: 'json',
+            data: {
+                act: 'chongzhi_list',
+                token: param.token,
+                signature: SHA2(`act=chongzhi_list&token=${param.token}${param.transfer_key}`)
+            },
+            success: function (data) {
+                app.balance = data.data.user_money;
+                app.huacai_voucher = data.data.user_huacai;
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    $(function () {
+        transformParams(getUserMoney);
+    });
+
+    function goChargeBefore() {
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if (isAndroid == true) {
+            android.goCharge();
+        } else {
+            goCharge()
+        }
+
+    }
+
+    /**
+     * 充值
+     */
+    function goCharge() {
+        //充值金额
+        var money = app.chooseMoney;
+        if (app.chooseMoney != '') {
+            if (app.chargeType == 0) {
+                //余额充值
+            }
+            else {
+                //花菜充值
+            }
+        }
+        else {
+            mui.toast('请选择充值金额!');
+        }
+    }
+</script>
+</body>
+</html>
