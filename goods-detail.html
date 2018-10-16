@@ -64,9 +64,9 @@
                         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                         if (isAndroid == true) {
-                            android.goToCart();
+                            android.goToCarts();
                         } else {
-                            goToCart()
+                            goToCarts()
                         }
 
                     }
@@ -102,7 +102,7 @@
                 });
             }
 
-            function goToCart() {
+            function goToCarts() {
                 mui.alert('去购物车');
 			}
             $(function () {
