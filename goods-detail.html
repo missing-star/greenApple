@@ -27,7 +27,6 @@
 			</div>
 			<div class="main-content-desc">
 				商品介绍
-				<button onclick="test()">click me</button>
 			</div>
 			<div @click="goToCart()" class="shopping-cart-container">
 				<span class="mui-badge mui-badge-danger circle-num">1</span>
@@ -65,9 +64,9 @@
                         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                         if (isAndroid == true) {
-                            android.goToCart1();
+                            android.goToCart();
                         } else {
-                            goToCart1()
+                            goToCart()
                         }
 
                     }
@@ -103,16 +102,12 @@
                 });
             }
 
-            function goToCart1() {
+            function goToCart() {
                 mui.alert('去购物车');
 			}
             $(function () {
 				transformParams(getGoodsDetail);
             })
-
-			function test() {
-				alert(666);
-            }
 		</script>
 	</body>
 
