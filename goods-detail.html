@@ -83,7 +83,7 @@
                         act:'search_goods_detail',
                         token:param.token,
 						goods_id:param.goods_id,
-                        signature:SHA2(`act=region&goods_id=${param.goods_id}&token=${param.token}${param.transfer_key}`)
+                        signature:SHA2(`act=search_goods_detail&goods_id=${param.goods_id}&token=${param.token}${param.transfer_key}`)
                     },
                     success:function(data) {
                         if(data.code == 200) {
