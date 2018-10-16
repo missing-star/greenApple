@@ -57,7 +57,7 @@
     });
 
     function showData(param) {
-        app.currentCity = param.currentCity;
+        app.currentCity = encodeURI(encodeURI(param.region_name));
         $.ajax({
             type: "post",
             url: " http://qpg.vlusi.com/api/api.php",
@@ -66,7 +66,7 @@
             data: {
                 act: 'region',
                 token: param.token,
-                signature: SHA2(`act=region&token=${token}${transfer_key}`)
+                signature: SHA2(`act=region&token=${param.token}${param.transfer_key}`)
             },
             success: function (data) {
                 $.each(data.info[0].child, function (index, city) {

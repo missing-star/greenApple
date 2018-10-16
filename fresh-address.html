@@ -41,14 +41,14 @@
 				data:{
 					forchange:1,
 					num:1,
-					tabs:["玄武区","秦淮区","雨花台区"],
-					tabshow:[[{id:1,name:"华农庙生鲜店",des:"华农庙生鲜店"}]],
+					tabs:[],
+					tabshow:[],
 					//纬度
 					lat:0,
 					//经度
 					lng:0,
 					//城市名称
-					city:'未知',
+					city:'',
 					//选中的自提点id
 					pointId:''
 				},
@@ -94,7 +94,7 @@
 						lat:param.lat,
 						lng:param.lng,
                         supplier_id:param.supplier_id,
-                        signature:SHA2(`act=pickup_point_list&city=${param.city}&lat=${param.lat}&lng=${param.lng}&supplier_id=${param.supplier_id}&token=${token}${transfer_key}`)
+                        signature:SHA2(`act=pickup_point_list&city=${param.city}&lat=${param.lat}&lng=${param.lng}&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
                     },
                     success:function(data) {
                         if(data.code == 200) {
