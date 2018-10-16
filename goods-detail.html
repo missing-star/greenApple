@@ -29,7 +29,7 @@
 				商品介绍
 				<button onclick="alert(123)">click me</button>
 			</div>
-			<div onclick="alert('123')" class="shopping-cart-container">
+			<div @click="goToCart()" class="shopping-cart-container">
 				<span class="mui-badge mui-badge-danger circle-num">1</span>
 				<img src="img/购物车.png" class="shopping-cart" />
 			</div>
@@ -39,7 +39,7 @@
 		<script type="text/javascript" src="js/vue.min.js"></script>
 		<script type="text/javascript" src="js/global.js" ></script>
 		<script type="text/javascript" src="js/sha1.js"></script>
-		<script>
+		<script type="text/javascript">
 			var app = new Vue({
 				el:'#app',
 				data:{
@@ -61,14 +61,14 @@
 						});
                     },
                     goToCart:function () {
-                        // var u = navigator.userAgent;
-                        // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-                        // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-                        // if (isAndroid == true) {
-                        //     android.goToCart();
-                        // } else {
-                        //     goToCart()
-                        // }
+                        var u = navigator.userAgent;
+                        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                        if (isAndroid == true) {
+                            android.goToCart();
+                        } else {
+                            goToCart()
+                        }
 
                     }
 				}
@@ -101,10 +101,6 @@
 						mui.toast('服务器异常!');
                     }
                 });
-            }
-            
-            function goToCart1() {
-				goToCart();
             }
 
             function goToCart() {
