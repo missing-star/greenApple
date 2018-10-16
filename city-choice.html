@@ -16,7 +16,7 @@
         <div class="now-position-title">
             当前定位
         </div>
-        <div class="now-position-name">
+        <div @click="chooseCityBefore(currentCityId)" class="now-position-name">
             {{currentCity}}
         </div>
     </div>
@@ -27,7 +27,7 @@
                     <div class="now-position-title">
                         <template v-if="index == 0">城市列表</template>
                     </div>
-                    <div onclick="chooseCityBefore(city.region_id)" class="now-position-name">
+                    <div @click="chooseCityBefore(city.region_id)" class="now-position-name">
                         {{city.name}}
                     </div>
                 </div>
@@ -44,10 +44,20 @@
         el: "#app",
         data: {
             currentCity: '定位中...',
+            currentCityId:'',
             cityList: []
         },
         methods: {
-
+            chooseCityBefore:function(region_id) {
+                var u = navigator.userAgent;
+                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isAndroid == true) {
+                    android.chooseCity(region_id);
+                } else {
+                    chooseCity(region_id)
+                }
+            }
         },
         computed: {
             getLength: function () {
@@ -57,7 +67,8 @@
     });
 
     function showData(param) {
-        app.currentCity = encodeURI(encodeURI(param.region_name));
+        app.currentCity = decodeURIComponent(param.region_name);
+        app.currentCityId = param.region_id;
         $.ajax({
             type: "post",
             url: " http://qpg.vlusi.com/api/api.php",
@@ -84,17 +95,6 @@
     $(function () {
         transformParams(showData);
     });
-    
-    function chooseCityBefore(region_id) {
-        var u = navigator.userAgent;
-        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-        if (isAndroid == true) {
-            android.chooseCity(region_id);
-        } else {
-            chooseCity(region_id)
-        }
-    }
     
     function chooseCity(region_id) {
         //region_id城市id

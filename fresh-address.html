@@ -98,7 +98,7 @@
                     },
                     success:function(data) {
                         if(data.code == 200) {
-                            data.forEach(function(value,index,array) {
+                            data.data.forEach(function(value,index,array) {
                                 app.tabs.push(value.district_name);
                                 var list = [];
                                 data.pickup_points.forEach(function (item,i) {
