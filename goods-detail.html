@@ -28,7 +28,7 @@
 			<div class="main-content-desc">
 				商品介绍
 			</div>
-			<div @click="goToCarts()" class="shopping-cart-container">
+			<div @click="goToCart()" class="shopping-cart-container">
 				<span class="mui-badge mui-badge-danger circle-num">1</span>
 				<img src="img/购物车.png" class="shopping-cart" />
 			</div>
@@ -59,14 +59,14 @@
                             }
 						});
                     },
-                    goToCarts:function () {
+                    goToCart:function () {
                         var u = navigator.userAgent;
                         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                         if (isAndroid == true) {
-                            android.goToCarts();
+                            android.goToCart();
                         } else {
-                            goToCarts()
+                            goToCart()
                         }
 
                     }
@@ -102,7 +102,7 @@
                 });
             }
 
-            function goToCarts() {
+            function goToCart() {
                 mui.alert('去购物车');
 			}
             $(function () {
