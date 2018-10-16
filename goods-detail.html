@@ -57,10 +57,13 @@
                      * @param goodsId
                      */
 				    addToCart:function(goodsId) {
-				        var goods = {};
-				        goods.goods_id = goodsId;
-				        goods.number = 1;
-				        console.log(goods);
+				        var goods = JSON.stringify({
+                            "quick": 1,
+                            "spec": [],
+                            "goods_id": goodsId,
+                            "number": "1",
+                            "parent": 0
+                        });;
                         $.ajax({
                             type:"post",
                             url:" http://qpg.vlusi.com/api/api.php",
