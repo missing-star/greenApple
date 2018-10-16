@@ -27,7 +27,7 @@
 			</div>
 			<div class="main-content-desc">
 				商品介绍
-				<button onclick="alert(123)">click me</button>
+				<button onclick="test()">click me</button>
 			</div>
 			<div @click="goToCart()" class="shopping-cart-container">
 				<span class="mui-badge mui-badge-danger circle-num">1</span>
@@ -109,6 +109,10 @@
             $(function () {
 				transformParams(getGoodsDetail);
             })
+
+			function test() {
+				alert(666);
+            }
 		</script>
 	</body>
 
