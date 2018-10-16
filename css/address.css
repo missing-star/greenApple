@@ -1,70 +1,74 @@
-html,body{
-				height: 100%;
-				font-family: "blackadder itc";
-				color:#33333;
-			}
-			.left{
-				background-color: #F0F0F0;
-				height: 100%;
-				width:30%;
-			}
-			.right{
-				width: 70%;
-				height: 100%;
-			}
-			.left,
-			.right {
-				display: inline-block;
-				float: left;
-						}
-		
-			li{
-				padding: 1em 0.8em;
-				border-bottom: 1px 
-				height: 3em;
-				
-				
-			}
-			.container-fluid {
-				height: 100%;
-				padding: 0;
-				margin: 0;
-				
-			}
-			
-			li.active {
-				background-color: #FFFFFF;
-				
-			
-			}
-			
-			ul {
-				list-style: none;
-				text-align: center;
-				margin: 0;
-				padding: 0;
-			
-			}
-			
-			.r-span{
-				display:inline-block;
-				margin: 2% 0;
-				font-size: 1.1em;
-				margin-left: 10%;
-				line-height: 1.5em;
-			}
-			.r-for{
-				height: 5em;
-				width: 100%;
-				border-bottom:0.5px solid #F0F0F0;
-			}
-			.r-span2{
-				margin-left: 10%;
-				font-size:0.5em;
-				color: #999999;
-				line-height: 1em;
-			}
-			.forchange span{
-				
-				color: #4CCD56!important;
-			}
+html, body {
+    height: 100%;
+    font-family: "blackadder itc";
+    color: #333333;
+}
+
+.left {
+    background-color: #F0F0F0;
+    height: 100%;
+    width: 30%;
+}
+
+.right {
+    width: 70%;
+    height: 100%;
+}
+
+.left,
+.right {
+    display: inline-block;
+    float: left;
+}
+
+li {
+    padding: 1em 0.8em;
+    border-bottom: 1px;
+    height: 3em;
+
+}
+
+.container-fluid {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+
+}
+
+li.active {
+    background-color: #FFFFFF;
+
+}
+
+ul {
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+
+}
+
+.r-span {
+    display: inline-block;
+    margin: 2% 0;
+    font-size: 1.1em;
+    margin-left: 10%;
+    line-height: 1.5em;
+}
+
+.r-for {
+    height: 5em;
+    width: 100%;
+    border-bottom: 0.5px solid #F0F0F0;
+}
+
+.r-span2 {
+    margin-left: 10%;
+    font-size: 0.5em;
+    color: #999999;
+    line-height: 1em;
+}
+
+.forchange span {
+    /*color: #4CCD56 !important;*/
+}

@@ -5,7 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>满减优惠</title>
 		<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js" ></script>
-		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>	
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="js/sha1.js"></script>
 		<script type="text/javascript" src="js/global.js" ></script>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
 		<style type="text/css">
@@ -94,8 +95,8 @@
 						data:{
 						    act:'activity_list',
 							token:param.token,
-							signature:SHA2(`act=activity_list&supplier_id=${param.supplier_id}${param.transfer_key}`),
-							supplier_id:param.supplier_id
+							supplier_id:param.supplier_id,
+                            signature:SHA2(`act=activity_list&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
 						},
 						success:function (data) {
 						    if(data.code == 200) {
@@ -105,7 +106,7 @@
 							}
                         },
 						error:function (xhr,status,info) {
-							mui.toast('服务器异常！')；
+							mui.toast('服务器异常！');
                         }
 					})
                 }

@@ -101,10 +101,11 @@
                             data.data.forEach(function(value,index,array) {
                                 app.tabs.push(value.district_name);
                                 var list = [];
-                                data.pickup_points.forEach(function (item,i) {
+                                value.pickup_points.forEach(function (item,i) {
                                     list.push({id:item.id,name:item.shop_name,des:item.address});
                                 });
                                 app.tabshow.push(list);
+                                console.log(app.tabs);
                             });
 						}
                     },
