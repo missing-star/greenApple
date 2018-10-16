@@ -10,7 +10,7 @@
 	</head>
 
 	<body>
-		<div class="mui-content">
+		<div id="app" class="mui-content">
 			<div class="top">
 				<img src="img/pig.jpg" />
 			</div>
@@ -28,7 +28,7 @@
 			<div class="main-content-desc">
 				商品介绍
 			</div>
-			<div onclick="goToCart()" class="shopping-cart-container">
+			<div onclick="goToCart1()" class="shopping-cart-container">
 				<span class="mui-badge mui-badge-danger circle-num">1</span>
 				<img src="img/购物车.png" class="shopping-cart" />
 			</div>
@@ -40,6 +40,7 @@
 		<script type="text/javascript" src="js/sha1.js"></script>
 		<script>
 			var app = new Vue({
+				el:'#app',
 				data:{
 					token:'',
 					transfer_key:''
@@ -57,18 +58,18 @@
 
                             }
 						});
+                    },
+                    goToCart:function () {
+                        // var u = navigator.userAgent;
+                        // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                        // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                        // if (isAndroid == true) {
+                        //     android.goToCart();
+                        // } else {
+                        //     goToCart()
+                        // }
+
                     }
-                    // ,
-                    // goToCart:function () {
-                    //     var u = navigator.userAgent;
-                    //     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-                    //     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-                    //     if (isAndroid == true) {
-                    //         android.goToCart();
-                    //     } else {
-                    //         goToCart()
-                    //     }
-                    // }
 				}
 			});
             /**
@@ -101,10 +102,13 @@
                 });
             }
             
-            function goToCart() {
-				alert('去购物车');
+            function goToCart1() {
+				goToCart();
             }
 
+            function goToCart() {
+                alert('去购物车');
+			}
             $(function () {
 				transformParams(getGoodsDetail);
             })
