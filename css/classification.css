@@ -184,3 +184,6 @@ p.calculate span {
 .child-list{
 	word-break: break-all;
 }
+div.mui-scroll div.mui-pull-bottom-pocket{
+	display: none;
+}

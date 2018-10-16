@@ -8,6 +8,7 @@
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
     <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="js/sha1.js"></script>
     <script type="text/javascript" src="js/global.js"></script>
     <style type="text/css">
         html, body {
@@ -77,7 +78,7 @@
             data:{
                 act:'contact_content',
                 token: param.token,
-                signature: SHA2(`act=contact_content&token=${token}${param.transfer_key}`)
+                signature: SHA2(`act=contact_content&token=${param.token}${param.transfer_key}`)
             },
             dataType:'json',
             success:function(data) {
