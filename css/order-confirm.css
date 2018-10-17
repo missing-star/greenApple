@@ -35,6 +35,7 @@
 .top {
 	background-color: #2FC075;
 	padding: 15px 30px;
+	min-height: 140px;
 }
 
 .top-content p,

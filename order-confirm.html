@@ -109,12 +109,16 @@
 				el:"#app",
 				data:{
 					invisible:true,
-                    marketName:'xx',
-                    address:'xxx',
-                    address:'xxx',
-                    phone:'xxx',
+                    marketName:'',
+                    address:'',
+                    address:'',
+                    phone:'',
                     preDate:new Date().getFullYear() + '-' + (parseInt(new Date().getMonth())+1) + '-' + new Date().getDate(),
-					preTime:'15:30~16:30'
+					preTime:'7:30~8:30',
+					token:'',
+					transfer_key:'',
+                    sel_cartgoods:'',
+					supplier_id:''
 				},
 				methods:{
 					showTrigger: function() {
@@ -122,7 +126,7 @@
 					},
                     selectTime:function () {
 						mui.openWindow({
-							url:`fresh-time.html?date=${app.preDate}`
+							url:`fresh-time.html?date=${app.preDate}&token=${app.token}&transfer_key=${app.transfer_key}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}`
 						})
                     }
 				}
@@ -135,6 +139,10 @@
 				if(param.date) {
 				    app.preDate = param.date;
 				}
+				app.sel_cartgoods = param.sel_cartgoods;
+				app.token = param.token;
+				app.transfer_key = param.transfer_key;
+				app.supplier_id = param.supplier_id;
 				$.ajax({
 					url:' http://qpg.vlusi.com/api/api.php',
 					type:'post',
@@ -143,7 +151,7 @@
 						token:param.token,
                         supplier_id:param.supplier_id,
                         sel_cartgoods:param.sel_cartgoods,
-                        signature:SHA2(`act=order_checkout&sel_cartgoods=${param.sel_cartgoods}&supplier_id=${param.supplier_id}${transfer_key}`)
+                        signature:SHA2(`act=order_checkout&sel_cartgoods=${param.sel_cartgoods}&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
 					},
 					success:function (data) {
 						

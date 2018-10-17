@@ -32,17 +32,31 @@
 			var app = new Vue({
 				el: "#app",
 				data: {
-					selectedTime:''
+					selectedTime:'',
+                    date:'',
+                    token:'',
+                    transfer_key:'',
+                    sel_cartgoods:'',
+                    supplier_id:''
 				},
 				methods:{
                     selectThis:function (event) {
                         app.selectedTime = $(event.target).parent().text();
                         mui.openWindow({
-							url:'order-confirm.html?time=' + app.selectedTime +'&date=' + transformParams().date
+							url:`order-confirm.html?time=${app.selectedTime}&date=${app.date}&token=${app.token}&transfer_key=${app.transfer_key}&sel_cartgoods=${app.sel_cartgoods}`
 						});
                     }
 				}
 			});
+
+			function saveParam(param) {
+				app.date = param.date;
+				app.token = param.token;
+				app.transfer_key = param.transfer_key;
+				app.sel_cartgoods = param.sel_cartgoods;
+				app.supplier_id = param.supplier_id;
+            }
+            transformParams(saveParam);
 		</script>
 	</body>
 
