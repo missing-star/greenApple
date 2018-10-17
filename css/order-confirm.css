@@ -118,7 +118,9 @@ tr.first {
 	display: inline-flex;
 	display: -webkit-inline-flex;
 	justify-content: center;
+	-webkit-justify-content: center;
 	align-items: center;
+	-webkit-align-items: center;
 	margin-bottom: 10px;
 }
 
