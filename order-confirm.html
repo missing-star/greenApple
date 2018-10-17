@@ -44,33 +44,33 @@
 				<div class="menu-content">
 					<table>
 						<tr class="first visible">
-							<td width="55%">品名</td>
+							<td width="45%">品名</td>
 							<td width="15%">数量</td>
-							<td width="15%"></td>
-							<td width="15%">价格</td>
+							<td width="20%"></td>
+							<td width="20%">价格</td>
 						</tr>
-						<template v-for="n in 10">
-							<template v-if="n > 4">
+						<template v-for="(goods,index) in goodsList">
+							<template v-if="index > 4">
 								<tr :class="{invisible:invisible}">
-									<td>优质猪后腿肉</td>
-									<td>1</td>
-									<td class="line-through">19.8</td>
-									<td>9.9</td>
+									<td>{{goods.goods_name}}</td>
+									<td>{{goods.goods_number}}</td>
+									<td class="line-through">{{goods.market_price}}</td>
+									<td>{{goods.goods_price}}</td>
 								</tr>
 							</template>
 							<template v-else>
 								<tr>
-									<td>优质猪后腿肉</td>
-									<td>1</td>
-									<td class="line-through">19.8</td>
-									<td>9.9</td>
+									<td>{{goods.goods_name}}</td>
+									<td>{{goods.goods_number}}</td>
+									<td class="line-through">{{goods.market_price}}</td>
+									<td>{{goods.goods_price}}</td>
 								</tr>
 							</template>
 						</template>
 						<tr class="first">
 							<td colspan="4">
 								<button v-bind:class="{invisible:!invisible,'btn-more':true}" @click="showTrigger">
-									共<span>13</span>件商品
+									共<span>{{goodsList.length}}</span>件商品
 									<img src="img/下拉菜单.png" />
 								</button>
 								<button v-bind:class="{invisible:invisible,'btn-more':true}" @click="showTrigger">
@@ -81,15 +81,15 @@
 						</tr>
 						<tr>
 							<td colspan="2">金额总计</td>
-							<td colspan="2">￥385</td>
+							<td colspan="2">￥{{totalMoney}}</td>
 						</tr>
 						<tr class="discount">
 							<td colspan="2">优惠</td>
-							<td colspan="2">满300减50</td>
+							<td colspan="2">{{discount}}</td>
 						</tr>
 						<tr>
 							<td colspan="2">实付金额</td>
-							<td colspan="2">￥335</td>
+							<td colspan="2">￥{{totalPay}}</td>
 						</tr>
 					</table>
 				</div>
@@ -111,7 +111,6 @@
 					invisible:true,
                     marketName:'',
                     address:'',
-                    address:'',
                     phone:'',
                     preDate:new Date().getFullYear() + '-' + (parseInt(new Date().getMonth())+1) + '-' + new Date().getDate(),
 					preTime:'7:30~8:30',
@@ -119,7 +118,15 @@
 					transfer_key:'',
                     sel_cartgoods:'',
 					supplier_id:'',
-					goodsList:[]
+					goodsList:[],
+					//金额总计
+					totalMoney:'',
+					//优惠
+                    discount:'',
+					//实际支付
+					totalPay:'',
+					//自提点
+                    pickup_point:''
 				},
 				methods:{
 					showTrigger: function() {
@@ -147,6 +154,7 @@
 				$.ajax({
 					url:' http://qpg.vlusi.com/api/api.php',
 					type:'post',
+					dataType:'json',
 					data:{
 					    act:'order_checkout',
 						token:param.token,
@@ -155,7 +163,18 @@
                         signature:SHA2(`act=order_checkout&sel_cartgoods=${param.sel_cartgoods}&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
 					},
 					success:function (data) {
-						
+						if(data.code == 200) {
+							app.marketName = data.data.pickup_point_default.shop_name;
+							app.address = data.data.pickup_point_default.address;
+							app.phone = data.data.pickup_point_default.phone;
+							app.goodsList = data.data.goods_list[0].goodlist;
+							app.totalMoney = data.data.total.market_price;
+							app.discount = data.data.total.discount;
+							app.totalPay = data.data.total.goods_price;
+						}
+						else {
+						    mui.toast('获取订单信息失败!');
+						}
                     }
 				})
             }
@@ -211,6 +230,30 @@
 
 
 			function submitOrderBefore() {
+                /**
+				 * 提交订单
+                 * @type {string}
+                 */
+                $.ajax({
+					url:'http://qpg.vlusi.com/api/api.php',
+					dataType:'json',
+					type:'json',
+					data:{
+						act:'order_done',
+						token:app.token,
+						sel_cartgoods:app.sel_cartgoods,
+						supplier_id:app.supplier_id,
+						pickup_point:app.pickup_point,
+						base_date:app.preDate,
+						base_time_section:parseStrToTime(app.preTime)
+					},
+					success:function (data) {
+
+                    },
+					error:function (xhr,status,info) {
+						mui.toast('服务器异常!');
+                    }
+				});
                 var u = navigator.userAgent;
                 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端

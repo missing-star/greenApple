@@ -69,18 +69,13 @@ function transformTime(time) {
     return date.getFullYear() + '-' + ((date.getMonth()+1) < 10 ? '0'+(date.getMonth()+1) : (date.getMonth()+1))+ '-' + (date.getDate() < 10 ? '0'+date.getDate() : date.getDate());
 }
 
-function base64_encode(input) {
-    var rv;
-    rv = encodeURIComponent(input);
-    rv = unescape(rv);
-    rv = window.btoa(rv);
-    return rv;
-}
-function base64_decode(input) {
-    rv = window.atob(input);
-    rv = escape(rv);
-    rv = decodeURIComponent(rv);
-    return rv;
+function parseStrToTime(str) {
+    var t = Date.parse(str);
+    if (!isNaN(t)) {
+        return new Date(Date.parse(str.toString().replace(/-/g, "/")));
+    } else {
+        return new Date();
+    }
 }
 
 //base64加密 解密
