@@ -187,3 +187,6 @@ p.calculate span {
 div.mui-scroll div.mui-pull-bottom-pocket{
 	display: none;
 }
+li.mui-table-view-cell.mui-media {
+	min-height: 110px;
+}
