@@ -57,13 +57,14 @@
                      * @param goodsId
                      */
 				    addToCart:function(goodsId) {
-				        var goods = JSON.stringify({
+                        console.log(`id=${goodsId}`)
+				        var goods = Base.encode(JSON.stringify({
                             "quick": 1,
                             "spec": [],
                             "goods_id": goodsId,
                             "number": "1",
                             "parent": 0
-                        });;
+                        }));
                         $.ajax({
                             type:"post",
                             url:" http://qpg.vlusi.com/api/api.php",
@@ -77,7 +78,7 @@
                             },
                             success:function(data) {
                                 if(data.code == 200) {
-									mui.toast('加入购物车成功');
+                                    mui.toast('已加入购物车');
 									//重新获取购物车数据
 									transformParams(getCartList);
                                 }
@@ -144,32 +145,32 @@
              */
             function getCartList(param) {
                 $.ajax({
-                    type:"post",
-                    url:" http://qpg.vlusi.com/api/api.php",
-                    async:true,
-                    dataType:'json',
-                    data:{
-                        act:'cart_list',
-                        token:param.token,
-                        supplier_id:param.supplier_id,
-                        signature:SHA2(`act=cart_list&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
+                    type: "post",
+                    url: " http://qpg.vlusi.com/api/api.php",
+                    async: true,
+                    dataType: 'json',
+                    data: {
+                        act: 'cart_list',
+                        token: param.token,
+                        supplier_id: param.supplier_id,
+                        signature: SHA2(`act=cart_list&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
                     },
-                    success:function(data) {
-                        if(data.code == 200) {
-							app.goodsNum = data.data.total.goods_amount;
+                    success: function (data) {
+                        if (data.code == 200) {
+                            app.goodsNum = data.data.goods_list[0].goods_list.length;
                         }
                         else {
                             mui.toast('获取购物车数据失败!');
                         }
                     },
-                    error:function() {
+                    error: function () {
                         mui.toast('服务器异常!');
                     }
                 });
             }
 
             function goToCart() {
-                mui.alert('去购物车');
+
 			}
             $(function () {
                 //获取商品详情

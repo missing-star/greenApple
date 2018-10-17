@@ -66,7 +66,7 @@ function transformParams(callback) {
 //转换时间
 function transformTime(time) {
     var date = new Date(parseInt(time));
-    return date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate();
+    return date.getFullYear() + '-' + ((date.getMonth()+1) < 10 ? '0'+(date.getMonth()+1) : (date.getMonth()+1))+ '-' + (date.getDate() < 10 ? '0'+date.getDate() : date.getDate());
 }
 
 function base64_encode(input) {

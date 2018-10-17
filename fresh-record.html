@@ -53,33 +53,7 @@
     var app = new Vue({
         el: "#app",
         data: {
-            recordList: [
-                {
-                    date: '08-16',
-                    money: '2000.00',
-                    type: '购物消费'
-                },
-                {
-                    date: '08-16',
-                    money: '2000.00',
-                    type: '购物消费'
-                },
-                {
-                    date: '08-16',
-                    money: '2000.00',
-                    type: '购物消费'
-                },
-                {
-                    date: '08-16',
-                    money: '2000.00',
-                    type: '购物消费'
-                },
-                {
-                    date: '08-16',
-                    money: '2000.00',
-                    type: '购物消费'
-                }
-            ]
+            recordList: []
         }
     });
 
@@ -91,13 +65,13 @@
             data: {
                 act: 'get_account_log',
                 token: param.token,
-                signature: SHA2(`act=get_account_log&count=10&offset=${param.offset}&token=${param.token}${transfer_key}`)
+                signature: SHA2(`act=get_account_log&token=${param.token}${param.transfer_key}`)
             },
             success: function (data) {
                 if (data.code == 200) {
                     data.data.forEach(function (value,index,array) {
                        app.recordList.push({
-                           date:value.change_time,
+                           date:transformTime(parseInt(value.change_time)),
                            money:value.user_money,
                            type:value.change_type_show
                        });

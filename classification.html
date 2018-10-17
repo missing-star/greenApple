@@ -42,7 +42,7 @@
                         </div>
                     </a>
                     <p class="calculate">
-								<span class="invisible reduce">
+								<span :id="goods.goods_id" class="invisible reduce">
 								<img src="img/形状2.png"/>
 							</span>
                         <span class="invisible">0</span>
@@ -54,7 +54,7 @@
             </ul>
         </div>
     </div>
-    <div class="shopping-cart-container">
+    <div @click="goToCart()" class="shopping-cart-container">
         <span v-if="goodsNum != 0" class="mui-badge mui-badge-danger circle-num">{{goodsNum}}</span>
         <img src="img/购物车.png" class="shopping-cart"/>
     </div>
@@ -105,13 +105,27 @@
                 mui.openWindow({
                     url: 'goodsDetail?token=' + app.token + '&signature=' + app.signature + '&goodsId=' + goodsId
                 });
+            },
+            goToCart: function () {
+                var u = navigator.userAgent;
+                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isAndroid == true) {
+                    android.goToCart();
+                } else {
+                    goToCart()
+                }
+
             }
         }
     });
     $(function () {
         //数量增加
         mui("body").on('tap', '.add', function () {
+            var num = parseInt($(this).prev().text());
+            var elem = $(this);
             var goods_id = $(this).attr("id");
+            console.log(`id=${goods_id}`)
             var goods = Base.encode(JSON.stringify(
                 {
                     "quick": 1,
@@ -134,35 +148,79 @@
                     signature: SHA2(`act=add_to_cart&goods=${goods}&token=${app.token}${app.transfer_key}`)
                 },
                 success: function (data) {
-
+                    if (data.code == 200) {
+                        if ($(elem).prev().text() == '0') {
+                            $(elem).prev().text(++num);
+                            $(elem).prev().prev().show();
+                            $(elem).prev().show();
+                        } else {
+                            $(elem).prev().text(++num);
+                        }
+                        //重新获取购物车数据
+                        transformParams(getCartList);
+                    }
+                    else {
+                        mui.toast('加入购物车失败!');
+                    }
                 },
                 error: function (xhr, status, info) {
                     mui.toast('服务器异常');
                 }
             });
-            var num = parseInt($(this).prev().text());
-            if ($(this).prev().text() == '0') {
-                $(this).prev().text(++num);
-                $(this).prev().prev().show();
-                $(this).prev().show();
-            } else {
-                $(this).prev().text(++num);
-            }
         });
         //数量减少
         mui("body").on('tap', '.reduce', function () {
             var num = parseInt($(this).next().text());
-            if ($(this).next().text() == '1') {
-                $(this).next().text(--num);
-                $(this).hide();
-                $(this).next().hide();
-            } else {
-                $(this).next().text(--num);
-            }
+            var elem = $(this);
+            var goods_id = $(this).attr("id");
+            var goods = Base.encode(JSON.stringify(
+                {
+                    "quick": 1,
+                    "spec": [],
+                    "goods_id": goods_id,
+                    "number": "-1",
+                    "parent": 0
+                }
+            ));
+            //加入购物车
+            $.ajax({
+                type: "post",
+                url: " http://qpg.vlusi.com/api/api.php",
+                async: true,
+                dataType: 'json',
+                data: {
+                    act: 'add_to_cart',
+                    token: app.token,
+                    goods: goods,
+                    signature: SHA2(`act=add_to_cart&goods=${goods}&token=${app.token}${app.transfer_key}`)
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        if ($(elem).next().text() == '1') {
+                            $(elem).next().text(--num);
+                            $(elem).hide();
+                            $(elem).next().hide();
+                        } else {
+                            $(elem).next().text(--num);
+                        }
+                        mui.toast('已加入购物车');
+                        //重新获取购物车数据
+                        transformParams(getCartList);
+                    }
+                    else {
+                        mui.toast('删除商品失败!');
+                    }
+                },
+                error: function (xhr, status, info) {
+                    mui.toast('服务器异常');
+                }
+            });
         });
-        //请求数据
-        transformParams(getClassList);
     });
+    //获取分类列表
+    transformParams(getClassList);
+    //获取购物车列表
+    transformParams(getCartList);
     //下拉回调函数
     var downFunc = function () {
         getGoodList(app.catId, app.supplier_id, true);
@@ -251,6 +309,43 @@
                 mui.toast('服务器异常!');
             }
         });
+    }
+
+    /**
+     * 获取购车商品数量
+     * @param param
+     */
+    function getCartList(param) {
+        $.ajax({
+            type: "post",
+            url: " http://qpg.vlusi.com/api/api.php",
+            async: true,
+            dataType: 'json',
+            data: {
+                act: 'cart_list',
+                token: param.token,
+                supplier_id: param.supplier_id,
+                signature: SHA2(`act=cart_list&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
+            },
+            success: function (data) {
+                if (data.code == 200) {
+                    app.goodsNum = data.data.goods_list[0].goods_list.length;
+                }
+                else {
+                    mui.toast('获取购物车数据失败!');
+                }
+            },
+            error: function () {
+                mui.toast('服务器异常!');
+            }
+        });
+    }
+
+    /**
+     * 去购物车
+     */
+    function goToCart() {
+
     }
 </script>
 </body>

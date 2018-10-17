@@ -21,6 +21,7 @@
 				display: -moz-box;
 				display: -o-flex;
 				border-bottom: 1px solid #ccc;
+				justify-content: space-between;
 			}
 			div.activity p.middle{
 				display: inline-flex;
@@ -62,7 +63,7 @@
 	</head>
 	<body>
 		<div id="app">
-			<div class="activity"  v-for="item in list" @click="gonInneractivity(item.id)">
+			<div class="activity"  v-for="item in list" @click="gonInneractivity(item.act_id)">
 				<img src="img/manjian.png"/>
 				<p class="middle">
 					<span class="top">满{{item.min_amount}}~{{item.max_amount}}元享折扣</span>
@@ -117,7 +118,6 @@
                                     return value.act_id == '5';
                                 });
 							}
-							console.log(app.list);
                         },
 						error:function (xhr,status,info) {
 							mui.toast('服务器异常！');
@@ -126,7 +126,7 @@
                 }
 
                 function goActivity() {
-
+					return app.actId;
 				}
 			</script>
 	</body>
