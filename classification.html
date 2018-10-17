@@ -102,8 +102,9 @@
             },
             //商品详情页
             goDetail: function (goodsId) {
+                console.log(goodsId);
                 mui.openWindow({
-                    url: 'goods-detail.html?token=' + app.token + '&signature=' + app.signature + '&goodsId=' + goodsId
+                    url: 'goods-detail.html?token=' + app.token + '&transfer_key=' + app.transfer_key + '&goods_id=' + goodsId + '&supplier_id=' + app.supplier_id
                 });
             },
             goToCart: function () {
@@ -347,6 +348,10 @@
     function goToCart() {
 
     }
+
+    mui("body").on('tap','.mui-table-view-cell.mui-media',function(){
+        this.click();
+    });
 </script>
 </body>
 
