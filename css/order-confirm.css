@@ -115,6 +115,7 @@ tr.first {
 }
 
 .btn-more {
+	background-color: #FFFFFF;
 	width: 100%;
 	color: #999999;
 	display: flex;
@@ -124,7 +125,9 @@ tr.first {
 	align-items: center;
 	-webkit-align-items: center;
 	margin-bottom: 10px;
+	margin-top: 10px;
 	text-align: center;
+	border: 1px solid #ccc;
 }
 
 .btn-more img {
