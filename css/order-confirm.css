@@ -124,6 +124,7 @@ tr.first {
 	align-items: center;
 	-webkit-align-items: center;
 	margin-bottom: 10px;
+	text-align: center;
 }
 
 .btn-more img {
