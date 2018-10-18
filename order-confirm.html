@@ -169,9 +169,9 @@
 							app.address = data.data.pickup_point_default.address;
 							app.phone = data.data.pickup_point_default.phone;
 							app.goodsList = data.data.goods_list[0].goodlist;
-							app.totalMoney = data.data.total.market_price;
-							app.discount = data.data.total.saving;
-							app.totalPay = data.data.total.goods_price;
+							app.totalMoney = data.data.total.goods_price;
+							app.discount = data.data.total.discount;
+							app.totalPay = data.data.total.amount;
 							app.pickup_point = data.data.pickup_point_default.id;
 						}
 						else {

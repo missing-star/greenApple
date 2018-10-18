@@ -30,7 +30,7 @@
                         <img class="mui-media-object mui-pull-left" :src="goods.goods_thumb">
                         <div class="mui-media-body">
                             <p class="mui-ellipsis goods-name">{{goods.goods_name}}</p>
-                            <p class='goods-num mui-ellipsis'>月销999件</p>
+                            <!--<p class='goods-num mui-ellipsis'>月销999件</p>-->
                             <p class="goods-spec">
                                 <span v-if="goods.is_promote == 1" class="special-price">特价</span>
                                 <span v-if="goods.is_buy == 1" class="only-one">限购{{goods.buymax}}份</span>
@@ -102,7 +102,6 @@
             },
             //商品详情页
             goDetail: function (goodsId) {
-                console.log(goodsId);
                 mui.openWindow({
                     url: 'goods-detail.html?token=' + app.token + '&transfer_key=' + app.transfer_key + '&goods_id=' + goodsId + '&supplier_id=' + app.supplier_id
                 });
@@ -122,7 +121,8 @@
     });
     $(function () {
         //数量增加
-        mui("body").on('tap', '.add', function () {
+        mui("body").on('tap', '.add', function (ev) {
+            ev.stopPropagation();
             var num = parseInt($(this).prev().text());
             var elem = $(this);
             var goods_id = $(this).attr("id");
@@ -159,6 +159,7 @@
                         }
                         //重新获取购物车数据
                         transformParams(getCartList);
+                        mui.toast('已加入购物车');
                     }
                     else {
                         mui.toast(data.message);
@@ -170,7 +171,8 @@
             });
         });
         //数量减少
-        mui("body").on('tap', '.reduce', function () {
+        mui("body").on('tap', '.reduce', function (ev) {
+            ev.stopPropagation();
             var num = parseInt($(this).next().text());
             var elem = $(this);
             var goods_id = $(this).attr("id");
@@ -204,7 +206,7 @@
                         } else {
                             $(elem).next().text(--num);
                         }
-                        mui.toast('已加入购物车');
+                        mui.toast('删除成功!');
                         //重新获取购物车数据
                         transformParams(getCartList);
                     }
@@ -232,7 +234,7 @@
             mui('#scroller').pullRefresh().endPullupToRefresh(false);
         }, 2000);
     };
-    pullToRefresh("#scroller", downFunc, upFunc);
+    // pullToRefresh("#scroller", downFunc, upFunc);
 
     /**
      * 获取商家分类列表
