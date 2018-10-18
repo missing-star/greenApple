@@ -263,7 +263,7 @@
                             }
 						}
 						else {
-						    mui.toast('提交订单信息失败');
+						    mui.toast('提交订单信息失败!请确认是否已设置自提点!');
 						}
                     },
 					error:function (xhr,status,info) {
@@ -273,7 +273,7 @@
             }
 			
 			function submitOrder(data) {
-				return data;
+				return data.order;
             }
 		</script>
 	</body>
