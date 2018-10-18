@@ -90,9 +90,9 @@
                             var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                             var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                             if (isAndroid == true) {
-                                android.goActivity();
+                                android.goActivity(JSON.stringify({actId:actId}));
                             } else {
-                                goActivity()
+                                window.location.href = `goActivity://${Base.encode(JSON.stringify({actId:actId}))}`
                             }
                         }
 					}
@@ -130,8 +130,8 @@
 					})
                 }
 
-                function goActivity() {
-					return app.actId;
+                function goActivity(actId) {
+
 				}
 			</script>
 	</body>
