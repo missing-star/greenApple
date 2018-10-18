@@ -239,27 +239,20 @@
         //充值金额
         var money = app.chooseMoney;
         if (app.chooseMoney != '') {
-            return "123";
-            // if (app.chargeType == 0) {
-            //     var result = JSON.stringify({
-            //         type:0,
-            //         money:money
-            //     });
-            //
-            //     console.log(result);
-            //     //余额充值
-            //     return JSON.stringify({
-            //         type:0,
-            //         money:money
-            //     });
-            // }
-            // else {
-            //     //花菜充值
-            //     return JSON.stringify({
-            //         type:1,
-            //         money:money
-            //     });
-            // }
+            if (app.chargeType == 0) {
+                //余额充值
+                return JSON.stringify({
+                    type:0,
+                    money:money
+                });
+            }
+            else {
+                //花菜充值
+                return JSON.stringify({
+                    type:1,
+                    money:money
+                });
+            }
         }
         else {
             mui.toast('请选择充值金额!');
