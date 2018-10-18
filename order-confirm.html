@@ -96,7 +96,7 @@
 			</div>
 		</div>
 		<div class="bottom-button">
-			<button class="mui-btn mui-btn-green mui-btn-block">提交订单</button>
+			<button onclick="submitOrderBefore()" class="mui-btn mui-btn-green mui-btn-block">提交订单</button>
 		</div>
 		<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js"></script>
 		<script type="text/javascript" src="js/sha1.js"></script>
@@ -171,6 +171,7 @@
 							app.totalMoney = data.data.total.market_price;
 							app.discount = data.data.total.discount;
 							app.totalPay = data.data.total.goods_price;
+							app.pickup_point = data.data.pickup_point_default.id;
 						}
 						else {
 						    mui.toast('获取订单信息失败!');
@@ -237,7 +238,7 @@
                 $.ajax({
 					url:'http://qpg.vlusi.com/api/api.php',
 					dataType:'json',
-					type:'json',
+					type:'post',
 					data:{
 						act:'order_done',
 						token:app.token,
@@ -245,10 +246,16 @@
 						supplier_id:app.supplier_id,
 						pickup_point:app.pickup_point,
 						base_date:app.preDate,
-						base_time_section:parseStrToTime(app.preTime)
+						base_time_section:parseStrToTime(app.preTime),
+						signature:SHA2(`act=order_done&base_date=${app.preDate}&base_time_section=${parseStrToTime(app.preTime)}&pickup_point=${app.pickup_point}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}&token=${app.token}${app.transfer_key}`)
 					},
 					success:function (data) {
+						if(data.code == 200) {
 
+						}
+						else {
+						    mui.toast('提交订单信息失败');
+						}
                     },
 					error:function (xhr,status,info) {
 						mui.toast('服务器异常!');

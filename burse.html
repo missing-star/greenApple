@@ -240,9 +240,17 @@
         if (app.chooseMoney != '') {
             if (app.chargeType == 0) {
                 //余额充值
+                return {
+                    type:0,
+                    money:money
+                }
             }
             else {
                 //花菜充值
+                return {
+                    type:1,
+                    money:money
+                }
             }
         }
         else {
