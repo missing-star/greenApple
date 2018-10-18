@@ -221,13 +221,35 @@
     });
 
     function goChargeBefore() {
+        var money = app.chooseMoney;
+        var result = {};
+        if (app.chooseMoney != '') {
+            if (app.chargeType == 0) {
+                //余额充值
+                result = JSON.stringify({
+                    type:0,
+                    money:money
+                });
+            }
+            else {
+                //花菜充值
+                result = JSON.stringify({
+                    type:1,
+                    money:money
+                });
+            }
+        }
+        else {
+            mui.toast('请选择充值金额!');
+            return false;
+        }
         var u = navigator.userAgent;
         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
         if (isAndroid == true) {
-            android.goCharge();
+            android.goCharge(result);
         } else {
-            goCharge()
+            window.location.href = `goCharge://${Base.encode(result)}`;
         }
 
     }
@@ -236,27 +258,7 @@
      * 充值
      */
     function goCharge() {
-        //充值金额
-        var money = app.chooseMoney;
-        if (app.chooseMoney != '') {
-            if (app.chargeType == 0) {
-                //余额充值
-                return JSON.stringify({
-                    type:0,
-                    money:money
-                });
-            }
-            else {
-                //花菜充值
-                return JSON.stringify({
-                    type:1,
-                    money:money
-                });
-            }
-        }
-        else {
-            mui.toast('请选择充值金额!');
-        }
+
     }
 </script>
 </body>
