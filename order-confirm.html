@@ -182,6 +182,7 @@
             }
 
             $(function () {
+                console.log(strToBinary('你好'));
 				transformParams(getOrderInfo);
             });
 
@@ -259,7 +260,7 @@
                             if (isAndroid == true) {
                                 android.submitOrder(JSON.stringify(data));
                             } else {
-                                window.location.href = `submitOrder://${strToBinary(JSON.stringify(data))}`;
+                                window.location.href = `submitOrder://${Base.encode(JSON.stringify(data))}`;
                             }
 						}
 						else {
