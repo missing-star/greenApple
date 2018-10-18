@@ -18,21 +18,22 @@
 							<img src="img/定位.png" />
 							<span>取货地址</span>
 						</p>
-						<p>大周路店</p>
-						<p>雨花台区大周路新驱动大厦</p>
-						<p>联系电话：025-11110000</p>
+						<p>{{marketName}}</p>
+						<p>{{address}}</p>
+						<p>联系电话：{{phone}}</p>
 					</div>
 				</div>
 				<div class="put-up-time">
-					<div class="list-item border-bottom">
+					<div id="show-date" class="list-item border-bottom">
 						<img src="img/取货日期.png" />
 						<span>预约取货日期</span>
-						<span class="time-font">2018-05-22</span>
+						<span class="time-font">{{preDate}}</span>
 					</div>
-					<div class="list-item">
+					<div @click="selectTime()" class="list-item">
 						<img src="img/取货时间.png" />
 						<span>预约取货时间</span>
-						<span class="time-font">13:00</span>
+						<span class="time-font">{{preTime}}</span>
+						<i class="mui-icon mui-icon-arrowright right-icon"></i>
 					</div>
 				</div>
 			</div>
@@ -43,94 +44,52 @@
 				<div class="menu-content">
 					<table>
 						<tr class="first visible">
-							<td width="55%">品名</td>
+							<td width="45%">品名</td>
 							<td width="15%">数量</td>
-							<td width="15%"></td>
-							<td width="15%">价格</td>
+							<td width="20%"></td>
+							<td width="20%">价格</td>
 						</tr>
-						<tr>
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
-						<tr>
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
-						<tr>
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
-						<tr>
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
-						<tr v-bind:class="{invisible:invisible}">
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
-						<tr v-bind:class="{invisible:invisible}">
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
-						<tr v-bind:class="{invisible:invisible}">
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
-						<tr v-bind:class="{invisible:invisible}">
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
-						<tr v-bind:class="{invisible:invisible}">
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
-						<tr v-bind:class="{invisible:invisible}">
-							<td>优质猪后腿肉</td>
-							<td>1</td>
-							<td class="line-through">19.8</td>
-							<td>9.9</td>
-						</tr>
+						<template v-for="(goods,index) in goodsList">
+							<template v-if="index > 4">
+								<tr :class="{invisible:invisible}">
+									<td>{{goods.goods_name}}</td>
+									<td>{{goods.goods_number}}</td>
+									<td class="line-through">{{goods.market_price}}</td>
+									<td>{{goods.goods_price}}</td>
+								</tr>
+							</template>
+							<template v-else>
+								<tr>
+									<td>{{goods.goods_name}}</td>
+									<td>{{goods.goods_number}}</td>
+									<td class="line-through">{{goods.market_price}}</td>
+									<td>{{goods.goods_price}}</td>
+								</tr>
+							</template>
+						</template>
 						<tr class="first">
 							<td colspan="4">
-								<button v-bind:class="{invisible:!invisible,'btn-more':true}" @click="showTrigger">
-									共<span>13</span>件商品
+								<div v-bind:class="{invisible:!invisible,'btn-more':true}" @click="showTrigger">
+									共<span>{{goodsList.length}}</span>件商品
 									<img src="img/下拉菜单.png" />
-								</button>
-								<button v-bind:class="{invisible:invisible,'btn-more':true}" @click="showTrigger">
+								</div>
+								<div v-bind:class="{invisible:invisible,'btn-more':true}" @click="showTrigger">
 									折叠
 									<i class="mui-icon mui-icon-arrowup"></i>
-								</button>
+								</div>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2">金额总计</td>
-							<td colspan="2">￥385</td>
+							<td colspan="2">￥{{totalMoney}}</td>
 						</tr>
 						<tr class="discount">
 							<td colspan="2">优惠</td>
-							<td colspan="2">满300减50</td>
+							<td colspan="2">{{discount}}</td>
 						</tr>
 						<tr>
 							<td colspan="2">实付金额</td>
-							<td colspan="2">￥335</td>
+							<td colspan="2">￥{{totalPay}}</td>
 						</tr>
 					</table>
 				</div>
@@ -148,7 +107,25 @@
 			var vm = new Vue({
 				el: "#app",
 				data: {
-					invisible: true
+                    invisible:true,
+                    marketName:'',
+                    address:'',
+                    phone:'',
+                    preDate:'',
+                    preTime:'',
+                    token:'',
+                    transfer_key:'',
+                    sel_cartgoods:'',
+                    supplier_id:'',
+                    goodsList:[],
+                    //金额总计
+                    totalMoney:'',
+                    //优惠
+                    discount:'',
+                    //实际支付
+                    totalPay:'',
+                    //自提点
+                    pickup_point:''
 				},
 				methods: {
 					showTrigger: function() {
@@ -183,15 +160,26 @@
 					    act:'act_order_detail',
 						token:param.token,
 						order_sn:param.order_sn,
-                        signature:SHA2(`act=act_order_detail&order_sn=${param.order_sn}&token=${param.token}${transfer_key}`)
+                        signature:SHA2(`act=act_order_detail&order_sn=${param.order_sn}&token=${param.token}${param.transfer_key}`)
 					},
 					success:function(data) {
 					    if(data.code == 200) {
-
+					        app.preDate = transformTime(data.data.best_date);
+					        app.preTime = data.data.best_time_section;
+                            app.marketName = data.data.shop_name;
+                            app.address = data.data.address;
+                            app.phone = data.data.phone;
+                            app.goodsList = data.data.goods_list;
+                            app.totalMoney = data.data.market_price;
+                            app.discount = data.data.discount;
+                            app.totalPay = data.data.money_paid;
+						}
+						else {
+						    mui.toast('获取订单信息失败!');
 						}
 					},
 					error:function(xhr,status,info) {
-
+						mui.toast('服务器异常!');
 					}
 				})
             }

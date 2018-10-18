@@ -3,7 +3,9 @@ html, body {
     font-family: "blackadder itc";
     color: #333333;
 }
-
+html,body,div.mui-content{
+    background: #FFFFFF;
+}
 .left {
     background-color: #F0F0F0;
     height: 100%;
