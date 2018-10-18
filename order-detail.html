@@ -29,7 +29,7 @@
 						<span>预约取货日期</span>
 						<span class="time-font">{{preDate}}</span>
 					</div>
-					<div @click="selectTime()" class="list-item">
+					<div class="list-item">
 						<img src="img/取货时间.png" />
 						<span>预约取货时间</span>
 						<span class="time-font">{{preTime}}</span>
@@ -172,7 +172,7 @@
                             app.phone = data.data.phone;
                             app.goodsList = data.data.goods_list;
                             app.totalMoney = data.data.market_price;
-                            app.discount = data.data.discount;
+                            app.discount = data.data.saving;
                             app.totalPay = data.data.money_paid;
 						}
 						else {

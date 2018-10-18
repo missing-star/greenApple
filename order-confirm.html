@@ -259,7 +259,7 @@
                             if (isAndroid == true) {
                                 android.submitOrder(JSON.stringify(data));
                             } else {
-                                window.location.href = `submitOrder://${JSON.stringify(data)}`;
+                                window.location.href = `submitOrder://${strToBinary(JSON.stringify(data))}`;
                             }
 						}
 						else {

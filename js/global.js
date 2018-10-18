@@ -78,6 +78,18 @@ function parseStrToTime(str) {
     }
 }
 
+function strToBinary(str){
+    console.log(str);
+    var result = [];
+    var list = str.split("");
+    for(var i=0;i<list.length;i++){
+        var item = list[i];
+        var binaryStr = item.charCodeAt().toString(2);
+        result.push(binaryStr);
+    }
+    return result.join("");
+}
+
 //base64加密 解密
 
 /* //1.加密
