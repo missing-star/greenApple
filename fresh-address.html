@@ -90,7 +90,7 @@
                             }
                         }
                         else {
-                            mui.toast('选择自提点失败!');
+                            mui.toast(data.message);
                         }
                     },
                     error: function (xhr, status, info) {
@@ -134,6 +134,9 @@
                         });
                         app.tabshow.push(list);
                     });
+                }
+                else {
+                    mui.toast(data.message);
                 }
             },
             error: function () {

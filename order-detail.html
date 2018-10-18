@@ -175,7 +175,7 @@
                             app.totalPay = data.data.money_paid;
 						}
 						else {
-						    mui.toast('获取订单信息失败!');
+						    mui.toast(data.message);
 						}
 					},
 					error:function(xhr,status,info) {

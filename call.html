@@ -82,9 +82,14 @@
             },
             dataType:'json',
             success:function(data) {
-                app.enterpriseInfo = data.enterpriseInfo;
-                app.phone = data.phone;
-                app.email = data.email;
+                if(data.code == 200) {
+                    app.enterpriseInfo = data.enterpriseInfo;
+                    app.phone = data.phone;
+                    app.email = data.email;
+                }
+                else {
+                    mui.toast(data.message);
+                }
             },
             error:function(xhr,status,info) {
                 mui.toast('服务器异常:' + info);

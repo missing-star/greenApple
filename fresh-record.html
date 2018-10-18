@@ -9,6 +9,8 @@
     <script type="text/javascript" src="js/sha1.js"></script>
     <script type="text/javascript" src="js/global.js"></script>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assest/mui/css/mui.css"/>
+    <script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
     <style type="text/css">
         body, html {
             background-color: #F0F0F0;
@@ -77,6 +79,12 @@
                        });
                     });
                 }
+                else {
+                    mui.toast(data.message);
+                }
+            },
+            error:function () {
+                mui.toast('服务器异常!');
             }
         });
     }

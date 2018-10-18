@@ -80,14 +80,19 @@
                 signature: SHA2(`act=region&token=${param.token}${param.transfer_key}`)
             },
             success: function (data) {
-                $.each(data.info[0].child, function (index, city) {
-                    $.each(city.child, function (i, item) {
-                        app.cityList.push({region_id: item.region_id, name: item.region_name});
+                if(data.code == 200) {
+                    $.each(data.info[0].child, function (index, city) {
+                        $.each(city.child, function (i, item) {
+                            app.cityList.push({region_id: item.region_id, name: item.region_name});
+                        });
                     });
-                });
+                }
+                else {
+                    mui.toast(data.message);
+                }
             },
             error: function () {
-
+                mui.toast('服务器异常!');
             }
         });
     }
