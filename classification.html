@@ -211,7 +211,7 @@
                         transformParams(getCartList);
                     }
                     else {
-                        mui.toast('删除商品失败!');
+                        mui.toast(data.message);
                     }
                 },
                 error: function (xhr, status, info) {
@@ -335,7 +335,7 @@
                     app.goodsNum = data.data.goods_list[0].goods_list.length;
                 }
                 else {
-                    mui.toast('获取购物车数据失败!');
+                    mui.toast(data.message);
                 }
             },
             error: function () {

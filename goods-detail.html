@@ -83,7 +83,7 @@
 									transformParams(getCartList);
                                 }
                                 else {
-                                    mui.toast('加入购车失败!');
+                                    mui.toast(data.message);
                                 }
                             },
                             error:function() {
@@ -130,7 +130,7 @@
                         	app.goodsName = data.data.goods_name;
                         }
                         else {
-                            mui.toast('获取商品数据失败!');
+                            mui.toast(data.message);
                         }
                     },
                     error:function() {
