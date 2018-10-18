@@ -104,7 +104,7 @@
 		<script type="text/javascript" src="js/global.js" ></script>
 		<script type="text/javascript" src="js/sha1.js"></script>
 		<script type="text/javascript">
-			var vm = new Vue({
+			var app = new Vue({
 				el: "#app",
 				data: {
                     invisible:true,
@@ -143,9 +143,9 @@
                         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                         if (isAndroid == true) {
-                            android.submitOrder();
+                            android.pickupGoods();
                         } else {
-                            submitOrder()
+                            pickupGoods()
                         }
 					}
 				}
@@ -156,6 +156,7 @@
 				$.ajax({
 					url:' http://qpg.vlusi.com/api/api.php',
 					type:'post',
+					dataType:'json',
 					data:{
 					    act:'act_order_detail',
 						token:param.token,
@@ -187,6 +188,10 @@
             $(function () {
 				transformParams(getOrderData);
             });
+			
+			function pickupGoods() {
+				
+            }
 		</script>
 	</body>
 
