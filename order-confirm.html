@@ -175,7 +175,7 @@
 							app.pickup_point = data.data.pickup_point_default.id;
 						}
 						else {
-						    mui.toast('获取订单信息失败!');
+						    mui.toast(data.message);
 						}
                     }
 				})
@@ -259,11 +259,11 @@
                             if (isAndroid == true) {
                                 android.submitOrder(JSON.stringify(data));
                             } else {
-                                submitOrder(data)
+                                window.webkit.messageHandlers.submitOrder.postMessage(JSON.stringify(data));
                             }
 						}
 						else {
-						    mui.toast('提交订单信息失败!请确认是否已设置自提点!');
+						    mui.toast(data.message);
 						}
                     },
 					error:function (xhr,status,info) {
