@@ -84,6 +84,7 @@ div.right {
 	width: 70%;
 	display: inline-block;
 	float: left;
+	overflow: scroll;
 }
 
 .mui-table-view .mui-media-object {
