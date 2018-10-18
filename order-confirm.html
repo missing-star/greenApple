@@ -141,6 +141,7 @@
 			});
 
 			function getOrderInfo(param) {
+			    alert(param);
 			    if(param.time) {
 			        app.preTime = param.time;
 				}
@@ -245,8 +246,8 @@
 						sel_cartgoods:app.sel_cartgoods,
 						supplier_id:app.supplier_id,
 						pickup_point:app.pickup_point,
-						base_date:app.preDate,
-						base_time_section:parseStrToTime(app.preTime),
+						base_date:parseStrToTime(app.preDate),
+						base_time_section:app.preTime,
 						signature:SHA2(`act=order_done&base_date=${app.preDate}&base_time_section=${parseStrToTime(app.preTime)}&pickup_point=${app.pickup_point}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}&token=${app.token}${app.transfer_key}`)
 					},
 					success:function (data) {
