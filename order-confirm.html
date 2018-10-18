@@ -259,7 +259,7 @@
                             if (isAndroid == true) {
                                 android.submitOrder(JSON.stringify(data));
                             } else {
-                                window.webkit.messageHandlers.submitOrder.postMessage(JSON.stringify(data));
+                                window.loaction = `submitOrder:${JSON.stringify(data)}`;
                             }
 						}
 						else {
