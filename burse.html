@@ -241,17 +241,17 @@
         if (app.chooseMoney != '') {
             if (app.chargeType == 0) {
                 //余额充值
-                return {
+                return JSON.stringify({
                     type:0,
                     money:money
-                }
+                });
             }
             else {
                 //花菜充值
-                return {
+                return JSON.stringify({
                     type:1,
                     money:money
-                }
+                });
             }
         }
         else {
