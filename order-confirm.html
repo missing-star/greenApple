@@ -141,7 +141,6 @@
 			});
 
 			function getOrderInfo(param) {
-			    alert(JSON.stringify(param));
 			    if(param.time) {
 			        app.preTime = param.time;
 				}
@@ -248,11 +247,19 @@
 						pickup_point:app.pickup_point,
 						base_date:parseStrToTime(app.preDate),
 						base_time_section:app.preTime,
-						signature:SHA2(`act=order_done&base_date=${app.preDate}&base_time_section=${parseStrToTime(app.preTime)}&pickup_point=${app.pickup_point}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}&token=${app.token}${app.transfer_key}`)
+						signature:SHA2(`act=order_done&base_date=${parseStrToTime(app.preDate)}&base_time_section=${app.preTime}&pickup_point=${app.pickup_point}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}&token=${app.token}${app.transfer_key}`)
 					},
 					success:function (data) {
 						if(data.code == 200) {
-
+							//提交订单成功
+                            var u = navigator.userAgent;
+                            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                            if (isAndroid == true) {
+                                android.submitOrder();
+                            } else {
+                                submitOrder()
+                            }
 						}
 						else {
 						    mui.toast('提交订单信息失败');
@@ -262,14 +269,6 @@
 						mui.toast('服务器异常!');
                     }
 				});
-                var u = navigator.userAgent;
-                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-                if (isAndroid == true) {
-                    android.submitOrder();
-                } else {
-                    submitOrder()
-                }
             }
 			
 			function submitOrder() {
