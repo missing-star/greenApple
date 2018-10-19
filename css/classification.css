@@ -118,6 +118,7 @@ p.calculate {
 
 p.calculate span {
 	margin-right: 5px;
+    z-index: 9;
 }
 
 .mui-table-view-cell>a:not(.mui-btn).mui-active {
