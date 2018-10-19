@@ -25,9 +25,9 @@
     <div class="right active  active" id="scroller">
         <div class="">
             <ul class="mui-table-view" v-for="goods in goodsList">
-                <li @click="goDetail(goods.goods_id)" class="mui-table-view-cell mui-media">
+                <li class="mui-table-view-cell mui-media">
                     <a href="javascript:;">
-                        <img class="mui-media-object mui-pull-left" :src="goods.goods_thumb">
+                        <img @click="goDetail(goods.goods_id)" class="mui-media-object mui-pull-left" :src="goods.goods_thumb">
                         <div class="mui-media-body">
                             <p class="mui-ellipsis goods-name">{{goods.goods_name}}</p>
                             <!--<p class='goods-num mui-ellipsis'>月销999件</p>-->
