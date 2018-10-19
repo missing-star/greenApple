@@ -33,7 +33,9 @@
         }
         footer{
             margin-top: 15px;
-        ;
+        }
+        p{
+            color: #333333;
         }
     </style>
 </head>
@@ -42,8 +44,7 @@
     <div id="speak">
         <header>
             <h3>企业资料</h3>
-            <p class="info">
-                {{enterpriseInfo}}
+            <p class="info" v-html="enterpriseInfo">
             </p>
         </header>
         <footer>
@@ -83,9 +84,9 @@
             dataType:'json',
             success:function(data) {
                 if(data.code == 200) {
-                    app.enterpriseInfo = data.enterpriseInfo;
-                    app.phone = data.phone;
-                    app.email = data.email;
+                    app.enterpriseInfo = data.data.content;
+                    app.phone = data.data.author_email;
+                    app.email = data.data.author_tel;
                 }
                 else {
                     mui.toast(data.message);
