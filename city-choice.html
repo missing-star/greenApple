@@ -16,7 +16,7 @@
         <div class="now-position-title">
             当前定位
         </div>
-        <div @click="chooseCityBefore(currentCityId)" class="now-position-name">
+        <div @click="chooseCityBefore(currentCityId,currentCity)" class="now-position-name">
             {{currentCity}}
         </div>
     </div>
@@ -27,7 +27,7 @@
                     <div class="now-position-title">
                         <template v-if="index == 0">城市列表</template>
                     </div>
-                    <div @click="chooseCityBefore(city.region_id)" class="now-position-name">
+                    <div @click="chooseCityBefore(city.region_id,city.name)" class="now-position-name">
                         {{city.name}}
                     </div>
                 </div>
@@ -44,18 +44,18 @@
         el: "#app",
         data: {
             currentCity: '定位中...',
-            currentCityId:'',
+            currentCityId: '',
             cityList: []
         },
         methods: {
-            chooseCityBefore:function(region_id) {
+            chooseCityBefore: function (region_id,name) {
                 var u = navigator.userAgent;
                 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                 if (isAndroid == true) {
-                    android.chooseCity(JSON.stringify({region_id:region_id}));
+                    android.chooseCity(JSON.stringify({region_id: region_id,name:name}));
                 } else {
-                    window.location.href = `chooseCity://${Base.encode(JSON.stringify({region_id:region_id}))}`;
+                    window.location.href = `chooseCity://${Base.encode(JSON.stringify({region_id: region_id,name:name}))}`;
                 }
             }
         },
@@ -80,16 +80,11 @@
                 signature: SHA2(`act=region&token=${param.token}${param.transfer_key}`)
             },
             success: function (data) {
-                if(data.code == 200) {
-                    $.each(data.info[0].child, function (index, city) {
-                        $.each(city.child, function (i, item) {
-                            app.cityList.push({region_id: item.region_id, name: item.region_name});
-                        });
+                $.each(data.info[0].child, function (index, city) {
+                    $.each(city.child, function (i, item) {
+                        app.cityList.push({region_id: item.region_id, name: item.region_name});
                     });
-                }
-                else {
-                    mui.toast(data.message);
-                }
+                });
             },
             error: function () {
                 mui.toast('服务器异常!');
@@ -100,7 +95,7 @@
     $(function () {
         transformParams(showData);
     });
-    
+
     function chooseCity(region_id) {
         //region_id城市id
     }
