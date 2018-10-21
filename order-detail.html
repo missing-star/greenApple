@@ -95,7 +95,8 @@
 				</div>
 			</div>
 			<div class="bottom-button">
-				<button id="get-goods" class="mui-btn mui-btn-green mui-btn-block" @click="getGoods">扫一扫取货</button>
+				<button v-if="orderStatus == 7" id="get-goods" class="mui-btn mui-btn-green mui-btn-block" @click="getGoods">扫一扫取货</button>
+				<button v-else-if="orderStatus == 100" class="mui-btn mui-btn-green mui-btn-block" @click="goPay">去付款</button>
 			</div>
 		</div>
 		<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js"></script>
@@ -147,18 +148,30 @@
                         } else {
                             window.location.href = `pickupGoods://${Base.encode(JSON.stringify({orderSn:app.orderSn}))}`;
                         }
-					}
+					},
+                    goPay:function () {
+                        var u = navigator.userAgent;
+                        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                        if (isAndroid == true) {
+                            android.goPay(JSON.stringify({orderSn:app.orderSn}));
+                        } else {
+                            window.location.href = `goPay://${Base.encode(JSON.stringify({orderSn:app.orderSn}))}`;
+                        }
+                    }
 				}
 			});
 			mui.init();
 
 			function getOrderData(param) {
+			    app.orderStatus = param.orderStatus;
 			    app.orderSn = param.order_sn;
 				$.ajax({
 					url:' http://qpg.vlusi.com/api/api.php',
 					type:'post',
 					dataType:'json',
 					data:{
+					    orderStatus:'',
 					    act:'act_order_detail',
 						token:param.token,
 						order_sn:param.order_sn,
