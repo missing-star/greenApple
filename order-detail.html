@@ -108,6 +108,7 @@
 			var app = new Vue({
 				el: "#app",
 				data: {
+                    orderStatus:'',
                     invisible:true,
                     marketName:'',
                     address:'',
@@ -171,7 +172,6 @@
 					type:'post',
 					dataType:'json',
 					data:{
-					    orderStatus:'',
 					    act:'act_order_detail',
 						token:param.token,
 						order_sn:param.order_sn,
