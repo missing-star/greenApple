@@ -36,26 +36,42 @@
             display: inline-block;
             float: right;
         }
+        .load-more {
+            width: 100%;
+            height: 40px;
+            background: #FFFFFF;
+            display: flex;
+            display: -webkit-flex;
+            align-items: center;
+            -webkit-align-items: center;
+            justify-content: center;
+            -webkit-justify-content: center;
+        }
     </style>
 </head>
 <body>
 <div id="app">
     <div v-for="item in recordList" class="div-f">
-				<span class="f-span">
+        <span class="f-span">
 				{{item.date}}
-			</span>
+        </span>
         <div class="f-d">
             <span style="font-size: 1.2em;color: #57cd57;">-{{item.money}}￥</span>
             <br/>
             <span style="font-size: 0.5em; color: #999999;position: relative;left: 30%;">{{item.type}}</span>
         </div>
     </div>
+    <div v-if="recordList.length >= 10" @click="getMore()" class="load-more">
+        {{loadMoreContent}}
+    </div>
 </div>
 <script type="text/javascript">
     var app = new Vue({
         el: "#app",
         data: {
-            recordList: []
+            loadMoreContent:'加载更多',
+            recordList: [],
+            offset:0
         }
     });
 
@@ -66,8 +82,10 @@
             type: 'post',
             data: {
                 act: 'get_account_log',
+                offset:app.offset,
+                count:10,
                 token: param.token,
-                signature: SHA2(`act=get_account_log&token=${param.token}${param.transfer_key}`)
+                signature: SHA2(`act=get_account_log&count=10&offset=${app.offset}&token=${param.token}${param.transfer_key}`)
             },
             success: function (data) {
                 if (data.code == 200) {
@@ -91,7 +109,12 @@
 
     $(function () {
         transformParams(getRecord);
-    })
+    });
+    
+    function getMore() {
+        app.offset += 10;
+        getRecord(transformParams(),app.offset);
+    }
 </script>
 </body>
 </html>
