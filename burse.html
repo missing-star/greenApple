@@ -86,8 +86,59 @@
             bottom: 0;
         }
 
-        img.money-img.selected {
+        div.charge-item.selected {
             opacity: 0.5;
+        }
+
+        div.charge-container {
+            display: flex;
+            display: -webkit-flex;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        div.charge-item {
+            display: flex;
+            display: -webkit-flex;
+            flex-direction: column;
+            -webkit-flex-direction: column;
+            align-items: center;
+            -webkit-align-items: center;
+            justify-content: center;
+            -webkit-justify-content: center;
+            width: 28%;
+            margin: 2%;
+            overflow: hidden;
+            background: #FB634E;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 16px;
+            line-height: 20px;
+        }
+
+        div.charge-item.charge-item-huacai {
+            width: 40%;
+        }
+
+        p.dashed-line {
+            white-space: nowrap;
+            overflow: hidden;
+            color: #FAA040;
+            font-size: 20px;
+            letter-spacing: 5px;
+        }
+
+        p.charge-content {
+            color: #FFFFFF;
+            font-size: 24px;
+        }
+
+        p.charge-content.charge-content-huacai {
+            font-size: 12px;
+        }
+
+        p {
+            margin: 0;
         }
     </style>
 </head>
@@ -118,9 +169,16 @@
         <div id='bd'>
             <span>余额充值</span>
             <br/>
-            <div>
-                <img class="money-img" v-for="image in balanceList" @click="choose(image.value,$event,0)"
-                     :src="image.image"/>
+            <div class="charge-container">
+                <div @click="choose(item.price,$event,0,item.id)" class="charge-item" v-for="item in balanceList">
+                    <p class="dashed-line">
+                        <template v-for="n in 800">-</template>
+                    </p>
+                    <p class="charge-content">￥{{item.price}}</p>
+                    <p class="dashed-line">
+                        <template v-for="n in 800">-</template>
+                    </p>
+                </div>
             </div>
         </div>
         <div id="bend">
@@ -128,9 +186,18 @@
                 <span style="font-size: 1.2em;">花菜劵充值</span>
                 <span style="font-size: 0.5em;color: #ff4040;">此卷仅用于此APP支付100劵=1元，不可提现</span>
             </div>
-            <div>
-                <img class="money-img" v-for="image in huacaiList" @click="choose(image.value,$event,1)"
-                     :src="image.image"/>
+            <div class="charge-container">
+                <div @click="choose(item.price,$event,1,item.id)" class="charge-item charge-item-huacai"
+                     v-for="item in huacaiList">
+                    <p class="dashed-line">
+                        <template v-for="n in 800">-</template>
+                    </p>
+                    <p class="charge-content">￥{{item.price}}</p>
+                    <p class="charge-content charge-content-huacai">{{item.present}}花菜券</p>
+                    <p class="dashed-line">
+                        <template v-for="n in 800">-</template>
+                    </p>
+                </div>
             </div>
 
         </div>
@@ -151,51 +218,33 @@
             //充值方式
             chargeType: '',
             //余额充值列表
-            balanceList: [
-                {
-                    image: 'img/100.png',
-                    value: 100
-                },
-                {
-                    image: 'img/150.png',
-                    value: 150
-                },
-                {
-                    image: 'img/200.png',
-                    value: 200
-                },
-                {
-                    image: 'img/300.png',
-                    value: 300
-                },
-                {
-                    image: 'img/500.png',
-                    value: 500
-                },
-            ],
+            balanceList: [],
             //花菜券充值列表
-            huacaiList: [
-                {
-                    image: 'img/500huacai.png',
-                    value: 500
-                },
-                {
-                    image: 'img/1000huacai.png',
-                    value: 1000
-                }
-            ]
+            huacaiList: [],
+            //充值的id
+            refill_id: '',
+            token: '',
+            transfer_key: ''
         },
         methods: {
-            choose: function (value, event, type) {
+            choose: function (value, event, type, refill_id) {
+                app.refill_id = refill_id;
                 app.chargeType = type;
                 app.chooseMoney = value;
-                $('img.money-img').removeClass('selected');
-                $(event.target).addClass('selected');
+                $('div.charge-item').removeClass('selected');
+                if ($(event.target).hasClass('charge-item')) {
+                    $(event.target).addClass('selected');
+                }
+                else {
+                    $(event.target).parent().addClass('selected');
+                }
             }
         }
     });
 
     function getUserMoney(param) {
+        app.token = param.token;
+        app.transfer_key = param.transfer_key;
         $.ajax({
             type: "post",
             url: "http://qpg.vlusi.com/api/api.php",
@@ -209,6 +258,8 @@
             success: function (data) {
                 app.balance = data.data.user_money;
                 app.huacai_voucher = data.data.user_huacai;
+                app.balanceList = data.data.chongzhi_goods;
+                app.huacaiList = data.data.huacai_goods;
             },
             error: function () {
 
@@ -221,36 +272,51 @@
     });
 
     function goChargeBefore() {
-        var money = app.chooseMoney;
-        var result = {};
-        if (app.chooseMoney != '') {
-            if (app.chargeType == 0) {
-                //余额充值
-                result = JSON.stringify({
-                    type:0,
-                    money:money
-                });
+        //生成订单号
+        $.post(' http://qpg.vlusi.com/api/api.php', {
+            act: 'add_refill_order',
+            token: app.token,
+            refill_id: app.refill_id,
+            signature: SHA2(`act=add_refill_order&refill_id=${app.refill_id}&token=${app.token}${app.transfer_key}`)
+        }, function (data) {
+            if (data.code == 200) {
+                var money = app.chooseMoney;
+                var result = {};
+                if (app.chooseMoney != '') {
+                    if (app.chargeType == 0) {
+                        //余额充值
+                        result = JSON.stringify({
+                            type: 0,
+                            money: money,
+                            order_sn: data.data.order_sn
+                        });
+                    }
+                    else {
+                        //花菜充值
+                        result = JSON.stringify({
+                            type: 1,
+                            money: money,
+                            order_sn: data.data.order_sn
+                        });
+                    }
+                }
+                else {
+                    mui.toast('请选择充值金额!');
+                    return false;
+                }
+                var u = navigator.userAgent;
+                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if (isAndroid == true) {
+                    android.goCharge(result);
+                } else {
+                    window.location.href = `goCharge://${Base.encode(result)}`;
+                }
             }
             else {
-                //花菜充值
-                result = JSON.stringify({
-                    type:1,
-                    money:money
-                });
+                mui.toast('创建充值订单失败!');
             }
-        }
-        else {
-            mui.toast('请选择充值金额!');
-            return false;
-        }
-        var u = navigator.userAgent;
-        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-        if (isAndroid == true) {
-            android.goCharge(result);
-        } else {
-            window.location.href = `goCharge://${Base.encode(result)}`;
-        }
+        }, 'json');
 
     }
 
