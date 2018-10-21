@@ -272,17 +272,17 @@
     });
 
     function goChargeBefore() {
-        //生成订单号
-        $.post(' http://qpg.vlusi.com/api/api.php', {
-            act: 'add_refill_order',
-            token: app.token,
-            refill_id: app.refill_id,
-            signature: SHA2(`act=add_refill_order&refill_id=${app.refill_id}&token=${app.token}${app.transfer_key}`)
-        }, function (data) {
-            if (data.code == 200) {
-                var money = app.chooseMoney;
-                var result = {};
-                if (app.chooseMoney != '') {
+        if (app.chooseMoney != '') {
+            //生成订单号
+            $.post(' http://qpg.vlusi.com/api/api.php', {
+                act: 'add_refill_order',
+                token: app.token,
+                refill_id: app.refill_id,
+                signature: SHA2(`act=add_refill_order&refill_id=${app.refill_id}&token=${app.token}${app.transfer_key}`)
+            }, function (data) {
+                if (data.code == 200) {
+                    var money = app.chooseMoney;
+                    var result = {};
                     if (app.chargeType == 0) {
                         //余额充值
                         result = JSON.stringify({
@@ -301,8 +301,7 @@
                     }
                 }
                 else {
-                    mui.toast('请选择充值金额!');
-                    return false;
+                    mui.toast('创建充值订单失败!');
                 }
                 var u = navigator.userAgent;
                 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
@@ -312,11 +311,12 @@
                 } else {
                     window.location.href = `goCharge://${Base.encode(result)}`;
                 }
-            }
-            else {
-                mui.toast('创建充值订单失败!');
-            }
-        }, 'json');
+            }, 'json');
+        }
+        else {
+            mui.toast('请选择充值金额!');
+            return false;
+        }
 
     }
 
