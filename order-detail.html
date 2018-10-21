@@ -157,9 +157,9 @@
                         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                         if (isAndroid == true) {
-                            android.goPay(JSON.stringify({orderSn:app.orderSn,orderAmount:app.orderAmount}));
+                            android.goPay(JSON.stringify({orderSn:app.orderSn,money:app.orderAmount}));
                         } else {
-                            window.location.href = `goPay://${Base.encode(JSON.stringify({orderSn:app.orderSn,orderAmount:app.orderAmount}))}`;
+                            window.location.href = `goPay://${Base.encode(JSON.stringify({orderSn:app.orderSn,money:app.orderAmount}))}`;
                         }
                     }
 				}
