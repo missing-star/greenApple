@@ -1,5 +1,4 @@
 var token = '';
-var transfer_key = 'ead5de99e3dfe933ef56bd2ff6e08886';
 
 // function getToken(callback,...args) {
 //     $.ajax({
