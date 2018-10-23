@@ -69,4 +69,5 @@ i.mui-back-icon.mui-icon.mui-icon-arrowleft {
 	border-radius: 100%;
 	font-size: 35px;
 	color: #FFFFFF;
+	z-index: 999;
 }
