@@ -250,9 +250,8 @@
             dataType: 'json',
             data: {
                 act: 'category_list',
-                token: param.token,
                 supplier_id: param.supplier_id,
-                signature: SHA2(`act=category_list&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
+                signature: SHA2(`act=category_list&supplier_id=${param.supplier_id}${param.transfer_key}`)
             },
             success: function (data) {
                 app.tabs = data.data.map(function (item, index) {
@@ -297,10 +296,9 @@
             dataType: 'json',
             data: {
                 act: 'search_goods_list',
-                token: app.token,
                 cat_id: id,
                 supplier_id: supplier_id,
-                signature: SHA2(`act=search_goods_list&cat_id=${id}&supplier_id=${supplier_id}&token=${app.token}${app.transfer_key}`)
+                signature: SHA2(`act=search_goods_list&cat_id=${id}&supplier_id=${supplier_id}${app.transfer_key}`)
             },
             success: function (data) {
                 app.goodsList = data.data;
