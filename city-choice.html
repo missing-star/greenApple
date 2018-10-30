@@ -48,14 +48,17 @@
             cityList: []
         },
         methods: {
-            chooseCityBefore: function (region_id,name) {
+            chooseCityBefore: function (region_id, name) {
                 var u = navigator.userAgent;
                 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                 if (isAndroid == true) {
-                    android.chooseCity(JSON.stringify({region_id: region_id,name:name}));
+                    android.chooseCity(JSON.stringify({region_id: region_id, name: name}));
                 } else {
-                    window.location.href = `chooseCity://${Base.encode(JSON.stringify({region_id: region_id,name:name}))}`;
+                    window.location.href = `chooseCity://${Base.encode(JSON.stringify({
+                        region_id: region_id,
+                        name: name
+                    }))}`;
                 }
             }
         },
@@ -75,15 +78,13 @@
             async: true,
             dataType: 'json',
             data: {
-                act: 'region',
-                token: param.token,
-                signature: SHA2(`act=region&token=${param.token}${param.transfer_key}`)
+                act: 'supplier_city',
+                city: param.region_id,
+                signature: SHA2(`act=supplier_city&city=${param.region_id}${param.transfer_key}`)
             },
             success: function (data) {
-                $.each(data.info[0].child, function (index, city) {
-                    $.each(city.child, function (i, item) {
-                        app.cityList.push({region_id: item.region_id, name: item.region_name});
-                    });
+                $.each(data.data, function (index, city) {
+                    app.cityList.push({region_id: city.region_id, name: city.region_name});
                 });
             },
             error: function () {
