@@ -61,24 +61,23 @@
                         android.chooseCity(JSON.stringify({region_id: region_id, name: name}));
                     }
                 } else {
-                    if (lng) {
-                        chooseCity(region_id,name,lat,lng);
-                        window.location.href = `chooseCity://${Base.encode(JSON.stringify({
-                            region_id: region_id,
-                            name: name,
-                            lat: lat,
-                            lng: lng
-                        }))}`;
-                    }
-                    else {
-                        chooseCity(region_id,name);
-                        window.location.href = `chooseCity://${Base.encode(JSON.stringify({
-                            region_id: region_id,
-                            name: name,
-                            lat: lat,
-                            lng: lng
-                        }))}`;
-                    }
+                    window.location.href = `chooseCity://${Base.encode(JSON.stringify({id:1})`;
+                    // if (lng) {
+                    //     window.location.href = `chooseCity://${Base.encode(JSON.stringify({
+                    //         region_id: region_id,
+                    //         name: name,
+                    //         lat: lat,
+                    //         lng: lng
+                    //     }))}`;
+                    // }
+                    // else {
+                    //     window.location.href = `chooseCity://${Base.encode(JSON.stringify({
+                    //         region_id: region_id,
+                    //         name: name,
+                    //         lat: lat,
+                    //         lng: lng
+                    //     }))}`;
+                    // }
                 }
             }
         },
