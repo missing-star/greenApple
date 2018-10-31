@@ -27,7 +27,8 @@
                     <div class="now-position-title">
                         <template v-if="index == 0">城市列表</template>
                     </div>
-                    <div @click="chooseCityBefore(city.region_id,city.name)" class="now-position-name">
+                    <div @click="chooseCityBefore(city.region_id,city.name,city.lng,city.lat)"
+                         class="now-position-name">
                         {{city.name}}
                     </div>
                 </div>
@@ -48,17 +49,32 @@
             cityList: []
         },
         methods: {
-            chooseCityBefore: function (region_id, name) {
+            chooseCityBefore: function (region_id, name, lng, lat) {
                 var u = navigator.userAgent;
                 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                 if (isAndroid == true) {
-                    android.chooseCity(JSON.stringify({region_id: region_id, name: name}));
+                    if (lng) {
+                        android.chooseCity(JSON.stringify({region_id: region_id, name: name, lng: lng, lat: lat}));
+                    }
+                    else {
+                        android.chooseCity(JSON.stringify({region_id: region_id, name: name}));
+                    }
                 } else {
-                    window.location.href = `chooseCity://${Base.encode(JSON.stringify({
-                        region_id: region_id,
-                        name: name
-                    }))}`;
+                    if (lng) {
+                        window.location.href = `chooseCity://${Base.encode(JSON.stringify({
+                            region_id: region_id,
+                            name: name,
+                            lat: lat,
+                            lng: lng
+                        }))}`;
+                    }
+                    else {
+                        window.location.href = `chooseCity://${Base.encode(JSON.stringify({
+                            region_id: region_id,
+                            name: name
+                        }))}`;
+                    }
                 }
             }
         },
@@ -84,7 +100,12 @@
             },
             success: function (data) {
                 $.each(data.data, function (index, city) {
-                    app.cityList.push({region_id: city.region_id, name: city.region_name});
+                    app.cityList.push({
+                        region_id: city.region_id,
+                        name: city.region_name,
+                        lng: city.longitude,
+                        lat: city.latitude
+                    });
                 });
             },
             error: function () {
@@ -97,7 +118,8 @@
         transformParams(showData);
     });
 
-    function chooseCity(region_id) {
+    function chooseCity(region_id, region_name, lng, lat) {
+        console.log(`${region_id}--${region_name}--${lng}--${lat}`);
         //region_id城市id
     }
 </script>
