@@ -7,10 +7,18 @@
     <title>分类</title>
     <link rel="stylesheet" href="assest/mui/css/mui.css"/>
     <link rel="stylesheet" href="css/classification.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
 
 <body>
 <div class="mui-content" id="app">
+    <div class="sk-wave" id="loading">
+        <div class="sk-rect sk-rect1"></div>
+        <div class="sk-rect sk-rect2"></div>
+        <div class="sk-rect sk-rect3"></div>
+        <div class="sk-rect sk-rect4"></div>
+        <div class="sk-rect sk-rect5"></div>
+    </div>
     <ul class="left">
         <li v-bind:class="{active:index == nowIndex}" v-for="(item,index) in tabs">
             <a href="javascript:;" @click="triggerActive(index)">{{item.name}}</a>
@@ -278,6 +286,7 @@
                         }
                     }
                 });
+                $("#loading").hide();
             },
             error: function (xhr, status, info) {
                 mui.toast('服务器异常');
