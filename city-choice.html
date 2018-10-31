@@ -62,6 +62,7 @@
                     }
                 } else {
                     if (lng) {
+                        chooseCity(region_id,name,lat,lng);
                         window.location.href = `chooseCity://${Base.encode(JSON.stringify({
                             region_id: region_id,
                             name: name,
@@ -70,9 +71,12 @@
                         }))}`;
                     }
                     else {
+                        chooseCity(region_id,name);
                         window.location.href = `chooseCity://${Base.encode(JSON.stringify({
                             region_id: region_id,
-                            name: name
+                            name: name,
+                            lat: lat,
+                            lng: lng
                         }))}`;
                     }
                 }
@@ -119,8 +123,7 @@
     });
 
     function chooseCity(region_id, region_name, lng, lat) {
-        console.log(`${region_id}--${region_name}--${lng}--${lat}`);
-        //region_id城市id
+
     }
 </script>
 </body>
