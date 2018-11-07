@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>订单确认</title>
+    <link rel="stylesheet" href="assest/mui/css/mui.css" />
+    <link rel="stylesheet" href="assest/mui/css/mui.picker.min.css" />
+    <link rel="stylesheet" href="css/order-confirm.css" />
+    <style>
+        .top-container{
+            position: relative;
+            height: auto;
+        }
+        .menu-ticket{
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app" class="mui-content">
+    <div class="top-container">
+        <div class="top">
+            <div class="top-content">
+                <p class="first-p">
+                    <img src="img/定位.png" />
+                    <span>{{marketName}}</span>
+                </p>
+                <p>{{address}}<span class="warning-info">（超过3公里不配送）</span></p>
+                <input v-model="userName" class="user-info" type="text" placeholder="请填写收货人姓名"/>
+                <input v-model="userPhone" class="user-info" type="text" placeholder="请填写收货人联系电话"/>
+                <textarea v-model="userAddress" class="user-info" placeholder="请填写收货人详细地址"></textarea>
+            </div>
+        </div>
+        <div class="put-up-time">
+            <div id="show-date" class="list-item border-bottom">
+                <img src="img/取货日期.png" />
+                <span>预约取货日期</span>
+                <span class="time-font">{{preDate}}</span>
+            </div>
+            <div @click="selectTime()" class="list-item">
+                <img src="img/取货时间.png" />
+                <span>预约取货时间</span>
+                <span class="time-font">{{preTime}}</span>
+                <i class="mui-icon mui-icon-arrowright right-icon"></i>
+            </div>
+        </div>
+    </div>
+    <div class="menu-ticket">
+        <div class="menu-title">
+            菜单小票
+        </div>
+        <div class="menu-content">
+            <table>
+                <tr class="first visible">
+                    <td width="45%">品名</td>
+                    <td width="15%">数量</td>
+                    <td width="20%"></td>
+                    <td width="20%">价格</td>
+                </tr>
+                <template v-for="(goods,index) in goodsList">
+                    <template v-if="index > 4">
+                        <tr :class="{invisible:invisible}">
+                            <td>{{goods.goods_name}}</td>
+                            <td>{{goods.goods_number}}</td>
+                            <td class="line-through">{{goods.market_price}}</td>
+                            <td>{{goods.goods_price}}</td>
+                        </tr>
+                    </template>
+                    <template v-else>
+                        <tr>
+                            <td>{{goods.goods_name}}</td>
+                            <td>{{goods.goods_number}}</td>
+                            <td class="line-through">{{goods.market_price}}</td>
+                            <td>{{goods.goods_price}}</td>
+                        </tr>
+                    </template>
+                </template>
+                <tr class="first">
+                    <td colspan="4">
+                        <div v-bind:class="{invisible:!invisible,'btn-more':true}" @click="showTrigger">
+                            共<span>{{goodsList.length}}</span>件商品
+                            <img src="img/下拉菜单.png" />
+                        </div>
+                        <div v-bind:class="{invisible:invisible,'btn-more':true}" @click="showTrigger">
+                            折叠
+                            <i class="mui-icon mui-icon-arrowup"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">金额总计</td>
+                    <td colspan="2">￥{{totalMoney}}</td>
+                </tr>
+                <tr class="discount">
+                    <td colspan="2">优惠</td>
+                    <td colspan="2">{{discount}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">实付金额</td>
+                    <td colspan="2">￥{{totalPay}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="bottom-button">
+    <button onclick="submitOrderBefore()" class="mui-btn mui-btn-green mui-btn-block">提交订单</button>
+</div>
+<script type="text/javascript" src="assest/mui/js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="js/sha1.js"></script>
+<script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="assest/mui/js/mui.picker.min.js"></script>
+<script type="text/javascript" src="js/vue.min.js" ></script>
+<script type="text/javascript" src="js/global.js" ></script>
+<script type="text/javascript">
+    var app = new Vue({
+        el:"#app",
+        data:{
+            invisible:true,
+            marketName:'大周路店',
+            address:'店铺地址',
+            phone:'',
+            preDate:new Date().getFullYear() + '-' + (parseInt(new Date().getMonth())+1) + '-' + (new Date().getDate() + 1),
+            preTime:'7:30~8:30',
+            token:'',
+            transfer_key:'',
+            sel_cartgoods:'',
+            supplier_id:'',
+            goodsList:[],
+            //金额总计
+            totalMoney:'',
+            //优惠
+            discount:'',
+            //实际支付
+            totalPay:'',
+            //自提点
+            pickup_point:'',
+            //收货人姓名
+            userName:'',
+            //收货人号码
+            userPhone:'',
+            //收货人地址
+            userAddress:''
+        },
+        methods:{
+            showTrigger: function() {
+                this.invisible = !this.invisible;
+            },
+            selectTime:function () {
+                mui.openWindow({
+                    url:`fresh-time.html?date=${app.preDate}&token=${app.token}&transfer_key=${app.transfer_key}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}`
+                })
+            }
+        }
+    });
+
+    function getOrderInfo(param) {
+        if(param.time) {
+            app.preTime = param.time;
+        }
+        if(param.date) {
+            app.preDate = param.date;
+        }
+        app.sel_cartgoods = param.sel_cartgoods;
+        app.token = param.token;
+        app.transfer_key = param.transfer_key;
+        app.supplier_id = param.supplier_id;
+        $.ajax({
+            url:' http://qpg.vlusi.com/api/api.php',
+            type:'post',
+            dataType:'json',
+            data:{
+                act:'order_checkout',
+                token:param.token,
+                supplier_id:param.supplier_id,
+                sel_cartgoods:param.sel_cartgoods,
+                signature:SHA2(`act=order_checkout&sel_cartgoods=${param.sel_cartgoods}&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
+            },
+            success:function (data) {
+                if(data.code == 200) {
+                    app.marketName = data.data.pickup_point_default.shop_name;
+                    app.address = data.data.pickup_point_default.address;
+                    app.phone = data.data.pickup_point_default.phone;
+                    app.goodsList = data.data.goods_list[0].goodlist;
+                    app.totalMoney = data.data.total.goods_price;
+                    app.discount = data.data.total.discount;
+                    app.totalPay = data.data.total.amount;
+                    app.pickup_point = data.data.pickup_point_default.id;
+                }
+                else {
+                    mui.toast(data.message);
+                }
+            }
+        })
+    }
+
+    $(function () {
+        console.log(strToBinary('你好'));
+        transformParams(getOrderInfo);
+    });
+
+    (function($) {
+        document.getElementById('show-date').addEventListener('tap', function() {
+            var _self = this;
+            if (_self.picker) {
+                _self.picker.show(function(rs) {
+                    app.preDate = rs.text;
+                    _self.picker.dispose();
+                    _self.picker = null;
+                });
+            } else {
+                var options = {"type":"date","value":app.preDate};
+                /*
+                * 首次显示时实例化组件
+                * 示例为了简洁，将 options 放在了按钮的 dom 上
+                * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+                */
+                _self.picker = new $.DtPicker(options);
+                _self.picker.show(function(rs) {
+                    /*
+                    * rs.value 拼合后的 value
+                    * rs.text 拼合后的 text
+                    * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+                    * rs.m 月，用法同年
+                    * rs.d 日，用法同年
+                    * rs.h 时，用法同年
+                    * rs.i 分（minutes 的第二个字母），用法同年
+                    */
+                    app.preDate = rs.text;
+                    /*
+                    * 返回 false 可以阻止选择框的关闭
+                    * return false;
+                    */
+                    /*
+                    * 释放组件资源，释放后将将不能再操作组件
+                    * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+                    * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+                    * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+                    */
+                    _self.picker.dispose();
+                    _self.picker = null;
+                });
+            }
+        }, false);
+    })(mui);
+
+
+    function submitOrderBefore() {
+        /**
+         * 提交订单
+         * @type {string}
+         */
+        $.ajax({
+            url:'http://qpg.vlusi.com/api/api.php',
+            dataType:'json',
+            type:'post',
+            data:{
+                act:'order_done',
+                token:app.token,
+                sel_cartgoods:app.sel_cartgoods,
+                supplier_id:app.supplier_id,
+                pickup_point:app.pickup_point,
+                base_date:parseStrToTime(app.preDate),
+                base_time_section:app.preTime,
+                signature:SHA2(`act=order_done&base_date=${parseStrToTime(app.preDate)}&base_time_section=${app.preTime}&pickup_point=${app.pickup_point}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}&token=${app.token}${app.transfer_key}`)
+            },
+            success:function (data) {
+                if(data.code == 200) {
+                    //提交订单成功
+                    var u = navigator.userAgent;
+                    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                    if (isAndroid == true) {
+                        android.submitOrder(JSON.stringify(data));
+                    } else {
+                        window.location.href = `submitOrder://${Base.encode(JSON.stringify(data))}`;
+                    }
+                }
+                else {
+                    mui.toast(data.message);
+                }
+            },
+            error:function (xhr,status,info) {
+                mui.toast('服务器异常!');
+            }
+        });
+    }
+
+    function submitOrder(data) {
+        return JSON.stringify(data.data.order);
+    }
+</script>
+</body>
+
+</html>
