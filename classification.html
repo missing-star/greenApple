@@ -62,7 +62,7 @@
             </ul>
         </div>
     </div>
-    <div @click="goToCart()" class="shopping-cart-container">
+    <div v-if="token" @click="goToCart()" class="shopping-cart-container">
         <span v-if="goodsNum != 0" class="mui-badge mui-badge-danger circle-num">{{goodsNum}}</span>
         <img src="img/购物车.png" class="shopping-cart"/>
     </div>
@@ -326,6 +326,9 @@
      * @param param
      */
     function getCartList(param) {
+        if(!param.token) {
+            return false;
+        }
         $.ajax({
             type: "post",
             url: " http://qpg.vlusi.com/api/api.php",
