@@ -74,3 +74,10 @@ ul {
 .forchange span {
     /*color: #4CCD56 !important;*/
 }
+div.r-for.active{
+    color: #4CCD56;
+}
+
+div.r-for.active span{
+    color: #4CCD56;
+}

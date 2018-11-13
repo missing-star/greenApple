@@ -29,7 +29,7 @@
     <div class="right">
         <div>
             <div v-for='(itemshow,index) in tabshow' v-show=" index == num" style="height: 100%;">
-                <div @click="chooseSelfLiftingBefore(items.id)" class="r-for" v-for='(items,indexs) in itemshow'
+                <div @click="chooseSelfLiftingBefore(items.id,$event)" class="r-for" v-for='(items,indexs) in itemshow'
                      v-bind:class="{forchange:indexs==forchange}" @click="fors(indexs)">
                     <span class="r-span">{{items.name}}</span>
                     <br/>
@@ -66,7 +66,8 @@
             fors: function (index) {
                 this.forchange = index;
             },
-            chooseSelfLiftingBefore: function (pointId) {
+            chooseSelfLiftingBefore: function (pointId,event) {
+                let elem = event.target;
                 app.pointId = pointId;
                 $.ajax({
                     url: 'http://qpg.vlusi.com/api/api.php',
@@ -80,6 +81,9 @@
                     },
                     success: function (data) {
                         if (data.code == 200) {
+                            //选择自提点成功
+                            $(elem).siblings().removeClass('active');
+                            $(elem).addClass('active');
                             var u = navigator.userAgent;
                             var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
                             var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
