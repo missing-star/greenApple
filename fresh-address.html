@@ -121,12 +121,11 @@
             dataType: 'json',
             data: {
                 act: 'pickup_point_list',
-                token: param.token,
                 city: param.city,
                 lat: param.lat,
                 lng: param.lng,
                 supplier_id: param.supplier_id,
-                signature: SHA2(`act=pickup_point_list&city=${param.city}&lat=${param.lat}&lng=${param.lng}&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
+                signature: SHA2(`act=pickup_point_list&city=${param.city}&lat=${param.lat}&lng=${param.lng}&supplier_id=${param.supplier_id}${param.transfer_key}`)
             },
             success: function (data) {
                 if (data.code == 200) {
