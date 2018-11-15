@@ -29,7 +29,8 @@
     <div class="right">
         <div>
             <div v-for='(itemshow,index) in tabshow' v-show=" index == num" style="height: 100%;">
-                <div @click="chooseSelfLiftingBefore(items.id,$event)" class="r-for" v-for='(items,indexs) in itemshow'
+                <div @click="chooseSelfLiftingBefore(items.id,items.name,$event)" class="r-for"
+                     v-for='(items,indexs) in itemshow'
                      v-bind:class="{forchange:indexs==forchange}" @click="fors(indexs)">
                     <span class="r-span">{{items.name}}</span>
                     <br/>
@@ -41,71 +42,79 @@
 </div>
 <script type="text/javascript">
     var app = new Vue({
-        el: ".container-fluid",
-        data: {
-            forchange: 1,
-            num: 0,
-            tabs: [],
-            tabshow: [],
-            //纬度
-            lat: 0,
-            //经度
-            lng: 0,
-            //城市名称
-            city: '',
-            //选中的自提点id
-            pointId: '',
-            token: '',
-            transfer_key: ''
-        },
-        methods: {
-            tab: function (index) {
-                this.num = index;
+            el: ".container-fluid",
+            data: {
+                forchange: 1,
+                num: 0,
+                tabs: [],
+                tabshow: [],
+                //纬度
+                lat: 0,
+                //经度
+                lng: 0,
+                //城市名称
+                city: '',
+                //选中的自提点id
+                pointId: '',
+                //选中的自提点名称
+                pointName: '',
+                token: '',
+                transfer_key: ''
+            },
+            methods:
+                {
+                    tab: function (index) {
+                        this.num = index;
 
-            },
-            fors: function (index) {
-                this.forchange = index;
-            },
-            chooseSelfLiftingBefore: function (pointId,event) {
-                let elem = event.target;
-                app.pointId = pointId;
-                $.ajax({
-                    url: 'http://qpg.vlusi.com/api/api.php',
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        act: 'update_userinfo',
-                        token: app.token,
-                        pickup_point_id:pointId,
-                        signature: SHA2(`act=update_userinfo&pickup_point_id=${pointId}&token=${app.token}${app.transfer_key}`)
-                    },
-                    success: function (data) {
-                        if (data.code == 200) {
-                            //选择自提点成功
-                            $(elem).siblings().removeClass('active');
-                            $(elem).addClass('active');
-                            var u = navigator.userAgent;
-                            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-                            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-                            if (isAndroid == true) {
-                                android.chooseSelfLifting(JSON.stringify({pointId:pointId}));
-                            } else {
-                                window.location.href = `chooseSelfLifting://${Base.encode({pointId:pointId})}`;
-                            }
-                        }
-                        else {
-                            mui.toast(data.message);
-                        }
-                    },
-                    error: function (xhr, status, info) {
-                        mui.toast('服务器异常!');
                     }
-                });
-            }
+                    ,
+                    fors: function (index) {
+                        this.forchange = index;
+                    }
+                    ,
+                    chooseSelfLiftingBefore: function (pointId, pointName, event) {
+                        let elem = event.target;
+                        app.pointId = pointId;
+                        app.pointName = pointName;
+                        $.ajax({
+                            url: 'http://qpg.vlusi.com/api/api.php',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {
+                                act: 'update_userinfo',
+                                token: app.token,
+                                pickup_point_id: pointId,
+                                signature: SHA2(`act=update_userinfo&pickup_point_id=${pointId}&token=${app.token}${app.transfer_key}`)
+                            },
+                            success: function (data) {
+                                if (data.code == 200) {
+                                    //选择自提点成功
+                                    $(elem).siblings().removeClass('active');
+                                    $(elem).addClass('active');
+                                    var u = navigator.userAgent;
+                                    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                                    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                                    if (isAndroid == true) {
+                                        android.chooseSelfLifting(JSON.stringify({pointId: pointId,pointName:pointName}));
+                                    } else {
+                                        window.location.href = `chooseSelfLifting://${Base.encode({pointId: pointId,pointName:pointName})}`;
+                                    }
+                                }
+                                else {
+                                    mui.toast(data.message);
+                                }
+                            },
+                            error: function (xhr, status, info) {
+                                mui.toast('服务器异常!');
+                            }
+                        });
+                    }
 
-        },
-        computed: {}
-    });
+                }
+            ,
+            computed: {}
+        })
+    ;
 
     /**
      * 获取自提点
@@ -151,7 +160,7 @@
     /**
      * 选择自提点返回
      */
-    function chooseSelfLifting(pointId) {
+    function chooseSelfLifting(pointId,pointName) {
     }
 
     $(function () {
