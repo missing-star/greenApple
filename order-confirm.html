@@ -69,11 +69,11 @@
 						</template>
 						<tr class="first">
 							<td colspan="4">
-								<div v-bind:class="{invisible:!invisible,'btn-more':true}" @click="showTrigger">
+								<div :class="{invisible:!invisible,'btn-more':true}" @click="showTrigger">
 									共<span>{{goodsList.length}}</span>件商品
 									<img src="img/下拉菜单.png" />
 								</div>
-								<div v-bind:class="{invisible:invisible,'btn-more':true}" @click="showTrigger">
+								<div :class="{invisible:invisible,'btn-more':true}" @click="showTrigger">
 									折叠
 									<i class="mui-icon mui-icon-arrowup"></i>
 								</div>
