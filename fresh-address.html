@@ -97,7 +97,9 @@
                                     if (isAndroid == true) {
                                         android.chooseSelfLifting(JSON.stringify({pointId: pointId,pointName:pointName}));
                                     } else {
-                                        window.location.href = `chooseSelfLifting://${Base.encode(JSON.stringify({pointId: pointId,pointName:pointName}))}`;
+                                        // let temp = {pointId: pointId,pointName:pointName};
+                                        // window.location.href = `chooseSelfLifting://${Base.encode(JSON.stringify(temp))}`;
+                                        window.location.href = `chooseSelfLifting://${Base.encode(JSON.stringify({id:'3'}))}`;
                                     }
                                 }
                                 else {
