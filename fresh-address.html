@@ -97,10 +97,7 @@
                                     if (isAndroid == true) {
                                         android.chooseSelfLifting(JSON.stringify({pointId: pointId,pointName:pointName}));
                                     } else {
-                                        // let temp = {pointId: pointId,pointName:pointName};
-                                        // window.location.href = `chooseSelfLifting://${Base.encode(JSON.stringify(temp))}`;
-                                        // window.location.href = `chooseSelfLifting://${Base.encode(JSON.stringify({id:'3'}))}`;
-                                        alert(3);
+                                        window.location.href = `chooseSelfLifting://${Base.encode(JSON.stringify({pointId: pointId,pointName:pointName}))}`;
                                     }
                                 }
                                 else {
@@ -164,6 +161,7 @@
      * 选择自提点返回
      */
     function chooseSelfLifting(pointId,pointName) {
+
     }
 
     $(function () {
