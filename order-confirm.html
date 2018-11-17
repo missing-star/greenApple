@@ -241,13 +241,14 @@
 					type:'post',
 					data:{
 						act:'order_done',
+                        is_pickup:1,
 						token:app.token,
 						sel_cartgoods:app.sel_cartgoods,
 						supplier_id:app.supplier_id,
 						pickup_point:app.pickup_point,
 						base_date:parseStrToTime(app.preDate),
 						base_time_section:app.preTime,
-						signature:SHA2(`act=order_done&base_date=${parseStrToTime(app.preDate)}&base_time_section=${app.preTime}&pickup_point=${app.pickup_point}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}&token=${app.token}${app.transfer_key}`)
+						signature:SHA2(`act=order_done&base_date=${parseStrToTime(app.preDate)}&base_time_section=${app.preTime}&is_pickup=1&pickup_point=${app.pickup_point}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}&token=${app.token}${app.transfer_key}`)
 					},
 					success:function (data) {
 						if(data.code == 200) {

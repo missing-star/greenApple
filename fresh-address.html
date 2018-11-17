@@ -76,38 +76,54 @@
                         let elem = event.target;
                         app.pointId = pointId;
                         app.pointName = pointName;
-                        $.ajax({
-                            url: 'http://qpg.vlusi.com/api/api.php',
-                            type: 'post',
-                            dataType: 'json',
-                            data: {
-                                act: 'update_userinfo',
-                                token: app.token,
-                                pickup_point_id: pointId,
-                                signature: SHA2(`act=update_userinfo&pickup_point_id=${pointId}&token=${app.token}${app.transfer_key}`)
-                            },
-                            success: function (data) {
-                                if (data.code == 200) {
-                                    //选择自提点成功
-                                    $(elem).siblings().removeClass('active');
-                                    $(elem).addClass('active');
-                                    var u = navigator.userAgent;
-                                    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-                                    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-                                    if (isAndroid == true) {
-                                        android.chooseSelfLifting(JSON.stringify({pointId: pointId,pointName:pointName}));
-                                    } else {
-                                        window.location.href = `chooseSelfLifting://${Base.encode(JSON.stringify({pointId: pointId,pointName:pointName}))}`;
-                                    }
-                                }
-                                else {
-                                    mui.toast(data.message);
-                                }
-                            },
-                            error: function (xhr, status, info) {
-                                mui.toast('服务器异常!');
+                        if(app.token != '') {
+                            //未登录
+                            $(elem).siblings().removeClass('active');
+                            $(elem).addClass('active');
+                            var u = navigator.userAgent;
+                            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                            if (isAndroid == true) {
+                                android.chooseSelfLifting(JSON.stringify({pointId: pointId,pointName:pointName}));
+                            } else {
+                                window.location.href = `chooseSelfLifting://${Base.encode(JSON.stringify({pointId: pointId,pointName:pointName}))}`;
                             }
-                        });
+                        }
+                        else {
+                            //登录
+                            $.ajax({
+                                url: 'http://qpg.vlusi.com/api/api.php',
+                                type: 'post',
+                                dataType: 'json',
+                                data: {
+                                    act: 'update_userinfo',
+                                    token: app.token,
+                                    pickup_point_id: pointId,
+                                    signature: SHA2(`act=update_userinfo&pickup_point_id=${pointId}&token=${app.token}${app.transfer_key}`)
+                                },
+                                success: function (data) {
+                                    if (data.code == 200) {
+                                        //选择自提点成功
+                                        $(elem).siblings().removeClass('active');
+                                        $(elem).addClass('active');
+                                        var u = navigator.userAgent;
+                                        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                                        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                                        if (isAndroid == true) {
+                                            android.chooseSelfLifting(JSON.stringify({pointId: pointId,pointName:pointName}));
+                                        } else {
+                                            window.location.href = `chooseSelfLifting://${Base.encode(JSON.stringify({pointId: pointId,pointName:pointName}))}`;
+                                        }
+                                    }
+                                    else {
+                                        mui.toast(data.message);
+                                    }
+                                },
+                                error: function (xhr, status, info) {
+                                    mui.toast('服务器异常!');
+                                }
+                            });
+                        }
                     }
 
                 }
