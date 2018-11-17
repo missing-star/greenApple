@@ -12,6 +12,7 @@
 	<body>
 		<div id="app" class="mui-content">
 			<div class="top-container">
+				<input id="temp-value">
 				<div class="top">
 					<div class="top-content">
 						<p class="first-p">
@@ -141,6 +142,7 @@
 			});
 
 			function getOrderInfo(param) {
+			    $("#temp-value").val(JSON.stringify(param));
 			    if(param.time) {
 			        app.preTime = param.time;
 				}
