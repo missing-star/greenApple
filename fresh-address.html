@@ -76,8 +76,8 @@
                         let elem = event.target;
                         app.pointId = pointId;
                         app.pointName = pointName;
-                        alert(app.token);
-                        if(app.token != '') {
+                        if(!app.token) {
+                            alert('未登录');
                             //未登录
                             $(elem).siblings().removeClass('active');
                             $(elem).addClass('active');
