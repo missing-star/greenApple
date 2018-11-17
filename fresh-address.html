@@ -137,7 +137,7 @@
      */
 
     function getSelfLifting(param) {
-        alert(param);
+        alert(JSON.stringify(param));
         app.token = param.token;
         app.transfer_key = param.transfer_key;
         $.ajax({
