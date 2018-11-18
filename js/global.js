@@ -71,9 +71,9 @@ function transformTime(time) {
 function parseStrToTime(str) {
     var t = Date.parse(str);
     if (!isNaN(t)) {
-        return new Date(Date.parse(str.toString().replace(/-/g, "/"))).getTime();
+        return new Date(Date.parse(str.toString().replace(/-/g, "/"))).getTime() / 1000;
     } else {
-        return new Date().getTime();
+        return new Date().getTime() / 1000;
     }
 }
 
