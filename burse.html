@@ -243,7 +243,6 @@
     });
 
     function getUserMoney(param) {
-        document.getElementById("test-value").value = JSON.stringify(param);
         app.token = param.token;
         app.transfer_key = param.transfer_key;
         $.ajax({
