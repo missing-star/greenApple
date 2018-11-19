@@ -143,6 +143,7 @@
     </style>
 </head>
 <body>
+<input id="test-value">
 <div id="app">
     <div id="bg">
         <div>
@@ -243,7 +244,7 @@
     });
 
     function getUserMoney(param) {
-        alert(JSON.stringify(param));
+        document.getElementById("test-value").value = JSON.stringify(param);
         app.token = param.token;
         app.transfer_key = param.transfer_key;
         $.ajax({
