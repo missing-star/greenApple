@@ -164,13 +164,13 @@
             app.preDate = param.date;
         }
         if(param.userName) {
-            app.userName = param.userName;
+            app.userName = decodeURI(param.userName);
         }
         if(param.userPhone != '') {
-            app.userPhone = param.userPhone;
+            app.userPhone = decodeURI(param.userPhone);
         }
         if(param.userAddress != '') {
-            app.userAddress = param.userAddress;
+            app.userAddress = decodeURI(param.userAddress);
         }
         app.sel_cartgoods = param.sel_cartgoods;
         app.token = param.token;
