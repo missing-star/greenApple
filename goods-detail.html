@@ -10,6 +10,7 @@
 	</head>
 
 	<body>
+	<input id="test-value">
 		<div id="app" class="mui-content">
 			<div class="top">
 				<i onclick="javascript:history.back(-1)" class="mui-back-icon mui-icon mui-icon-arrowleft"></i>
@@ -109,7 +110,7 @@
 			 * 获取商品详情
              */
 			function getGoodsDetail(param) {
-			    alert(JSON.stringify(param));
+			    $("#test-value").val(JSON.stringify(param));
 			    app.token = param.token;
 			    app.transfer_key = param.transfer_key;
                 $.ajax({
