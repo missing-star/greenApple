@@ -10,6 +10,7 @@
 	</head>
 
 	<body>
+	<input id="test-input">
 		<div id="app" class="mui-content">
 
 			<div class="top-container">
@@ -173,6 +174,7 @@
 			mui.init();
 
 			function getOrderData(param) {
+			    $("#test-input").val(JSON.stringify(param));
 			    app.orderNumber = param.order_sn;
 			    app.orderStatus = param.orderStatus;
 			    app.orderSn = param.order_sn;
