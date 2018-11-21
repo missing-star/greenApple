@@ -163,7 +163,7 @@
                         signature:SHA2(`act=order_checkout&sel_cartgoods=${param.sel_cartgoods}&supplier_id=${param.supplier_id}&token=${param.token}${param.transfer_key}`)
 					},
 					success:function (data) {
-					    alert(data);
+					    alert(JSON.stringify(data));
 						if(data.code == 200) {
 							app.marketName = data.data.pickup_point_default.shop_name;
 							app.address = data.data.pickup_point_default.address;
