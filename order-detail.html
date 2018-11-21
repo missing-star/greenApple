@@ -41,7 +41,6 @@
 			</div>
 			<div class="menu-ticket">
 				<div class="menu-title">
-					<input id="test-input">
 					菜单小票
 				</div>
 				<div class="menu-content">
@@ -175,7 +174,6 @@
 			mui.init();
 
 			function getOrderData(param) {
-			    $("#test-input").val(JSON.stringify(param));
 			    app.orderNumber = param.order_sn;
 			    app.orderStatus = param.orderStatus;
 			    app.orderSn = param.order_sn;
