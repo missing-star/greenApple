@@ -19,7 +19,6 @@
 </head>
 
 <body>
-<input id="test-value">
 <div id="app" class="mui-content">
     <div class="top-container">
         <div class="top">
@@ -151,14 +150,13 @@
             },
             selectTime:function () {
                 mui.openWindow({
-                    url:`fresh-time.html?date=${app.preDate}&token=${app.token}&transfer_key=${app.transfer_key}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}`
+                    url:`fresh-time.html?date=${app.preDate}&token=${app.token}&transfer_key=${app.transfer_key}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}is_pickup=false&userName=${app.userName}&userPhone=${app.userPhone}&userAddress=${app.userAddress}`
                 })
             }
         }
     });
 
     function getOrderInfo(param) {
-        $("#test-value").val(JSON.stringify(param));
         if(param.time) {
             app.preTime = param.time;
         }

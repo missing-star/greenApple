@@ -37,19 +37,52 @@
                     token:'',
                     transfer_key:'',
                     sel_cartgoods:'',
-                    supplier_id:''
+                    supplier_id:'',
+                    is_pickup:'',
+					userName:'',
+					userPhone:'',
+					userAddress:''
 				},
 				methods:{
                     selectThis:function (event) {
                         app.selectedTime = $(event.target).parent().text();
-                        mui.openWindow({
-							url:`order-confirm.html?time=${app.selectedTime}&date=${app.date}&token=${app.token}&transfer_key=${app.transfer_key}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}`
-						});
+                        if(app.is_pickup) {
+                            //自提点提交页面
+                            mui.openWindow({
+                                url:`order-confirm.html?time=${app.selectedTime}&date=${app.date}&token=${app.token}&transfer_key=${app.transfer_key}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}`
+                            });
+						}
+						else {
+						    let userInfo = '';
+                            if(app.userName != '') {
+                                userInfo += `userName=${app.userName}`;
+                            }
+                            if(app.userPhone != '') {
+                                userInfo += `userName=${app.userPhone}`;
+                            }
+                            if(app.userAddress != '') {
+                                userInfo += `userName=${app.userAddress}`;
+                            }
+						    //送货
+                            mui.openWindow({
+                                url:`order-confirm.html?time=${app.selectedTime}&date=${app.date}&token=${app.token}&transfer_key=${app.transfer_key}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}${userInfo}`
+                            });
+						}
                     }
 				}
 			});
 
 			function saveParam(param) {
+			    if(param.userName) {
+			        app.userName = param.userName;
+				}
+				if(param.userPhone) {
+				    app.userPhone = param.userPhone;
+				}
+				if(param.userAddress) {
+				    app.userAddress = param.userAddress;
+				}
+			    app.is_pickup = param.is_pickup;
 				app.date = param.date;
 				app.token = param.token;
 				app.transfer_key = param.transfer_key;
