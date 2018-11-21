@@ -181,6 +181,7 @@
             }
 
             $(function () {
+                transformParams(getDefaultPoint);
 				transformParams(getOrderInfo);
             });
 
@@ -275,6 +276,32 @@
 			function submitOrder(data) {
 				return JSON.stringify(data.data.order);
             }
+
+            /**
+			 * 获得当前用户的默认自提点
+             */
+            function getDefaultPoint(param) {
+                $.ajax({
+					url:'http://qpg.vlusi.com/api/api.php',
+					type:'post',
+					data:{
+					    act:'default_index',
+						token:param.token,
+						signature:SHA2(`act=default_index&token=${param.token}${param.transfer_key}`)
+					},
+					success:function (data) {
+						if(data.code == 200) {
+						    alert(data.pickup_point_default.id);
+						}
+						else {
+						    mui.toast(data.message);
+						}
+                    },
+					error:function () {
+						mui.toast('服务器异常!');
+                    }
+				})
+			}
 		</script>
 	</body>
 
