@@ -19,6 +19,7 @@
 </head>
 
 <body>
+<input id="test-value">
 <div id="app" class="mui-content">
     <div class="top-container">
         <div class="top">
@@ -157,6 +158,7 @@
     });
 
     function getOrderInfo(param) {
+        $("#test-value").val(JSOn.stringify(param));
         if(param.time) {
             app.preTime = param.time;
         }
@@ -197,7 +199,6 @@
     }
 
     $(function () {
-        console.log(strToBinary('你好'));
         transformParams(getOrderInfo);
     });
 
