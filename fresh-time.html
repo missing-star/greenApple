@@ -55,13 +55,13 @@
 						else {
 						    let userInfo = '';
                             if(app.userName != '') {
-                                userInfo += `userName=${app.userName}`;
+                                userInfo += `&userName=${app.userName}`;
                             }
                             if(app.userPhone != '') {
-                                userInfo += `userName=${app.userPhone}`;
+                                userInfo += `&userPhone=${app.userPhone}`;
                             }
                             if(app.userAddress != '') {
-                                userInfo += `userName=${app.userAddress}`;
+                                userInfo += `&userAddress=${app.userAddress}`;
                             }
 						    //送货
                             mui.openWindow({
