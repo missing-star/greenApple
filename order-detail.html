@@ -188,7 +188,6 @@
                         signature:SHA2(`act=act_order_detail&order_sn=${param.order_sn}&token=${param.token}${param.transfer_key}`)
 					},
 					success:function(data) {
-					    alert(JSON.stringify(data));
 					    if(data.code == 200) {
 					        app.preDate = transformTime(data.data.best_date);
 					        app.preTime = data.data.best_time_section;
