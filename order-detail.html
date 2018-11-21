@@ -173,6 +173,7 @@
 			mui.init();
 
 			function getOrderData(param) {
+			    alert(JSON.stringify(param));
 			    app.orderNumber = param.order_sn;
 			    app.orderStatus = param.orderStatus;
 			    app.orderSn = param.order_sn;
