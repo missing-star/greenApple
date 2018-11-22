@@ -274,9 +274,10 @@
                     address:app.userAddress,
                     sel_cartgoods:app.sel_cartgoods,
                     supplier_id:app.supplier_id,
+                    pickup_point:app.pickup_point,
                     base_date:parseStrToTime(app.preDate),
                     base_time_section:app.preTime,
-                    signature:SHA2(`act=order_done&address=${app.userAddress}&base_date=${parseStrToTime(app.preDate)}&base_time_section=${app.preTime}&consignee=${app.userName}&is_pickup=100&mobile=${app.userPhone}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}&token=${app.token}${app.transfer_key}`)
+                    signature:SHA2(`act=order_done&address=${app.userAddress}&base_date=${parseStrToTime(app.preDate)}&base_time_section=${app.preTime}&consignee=${app.userName}&is_pickup=100&mobile=${app.userPhone}&pickup_point=${app.pickup_point}&sel_cartgoods=${app.sel_cartgoods}&supplier_id=${app.supplier_id}&token=${app.token}${app.transfer_key}`)
                 },
                 success:function (data) {
                     if(data.code == 200) {
