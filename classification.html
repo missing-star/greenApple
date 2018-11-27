@@ -21,7 +21,7 @@
     </div>
     <ul class="left">
         <li v-bind:class="{active:index == nowIndex}" v-for="(item,index) in tabs">
-            <a href="javascript:;" @click="triggerActive(index)">{{item.name}}</a>
+            <a href="javascript:;" @click="triggerActive(index,item)">{{item.name}}</a>
             <ul v-bind:class="{invisible:index != nowIndex || trigger}">
                 <li v-bind:class="{'child-list':true,active:nowIndexChild.toString() == [index,i].toString()}"
                     v-for="(child,i) in item.childs" @click="triggerActiveChild(index,i,child.id)">
@@ -95,12 +95,19 @@
             catId: ''
         },
         methods: {
-            triggerActive: function (index) {
-                if (index != this.nowIndex) {
-                    this.nowIndex = index;
-                    this.trigger = false;
-                } else {
-                    this.trigger = !this.trigger;
+            triggerActive: function (index,item) {
+                if(item.childs) {
+                    //有子类，展开
+                    if (index != this.nowIndex) {
+                        this.nowIndex = index;
+                        this.trigger = false;
+                    } else {
+                        this.trigger = !this.trigger;
+                    }
+                }
+                else {
+                    //无子类，请求数据
+                    getGoodList(item.id, app.supplier_id);
                 }
             },
             triggerActiveChild: function (parIndex, childIndex, id) {
@@ -280,6 +287,10 @@
                         }
                     }
                     else {
+                        if (index == 0) {
+                            app.catId = item.cat_id;
+                            getGoodList(item.cat_id, app.supplier_id);
+                        }
                         return {
                             id: item.cat_id,
                             name: item.cat_name
