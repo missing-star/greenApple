@@ -12,7 +12,7 @@
 
 <body>
 <div class="mui-content" id="app">
-    <div class="sk-wave" id="loading">
+    <div class="sk-wave" id="loading">0
         <div class="sk-rect sk-rect1"></div>
         <div class="sk-rect sk-rect2"></div>
         <div class="sk-rect sk-rect3"></div>
@@ -20,6 +20,7 @@
         <div class="sk-rect sk-rect5"></div>
     </div>
     <ul class="left">
+        <input id="test-value"/>
         <li v-bind:class="{active:index == nowIndex}" v-for="(item,index) in tabs">
             <a href="javascript:;" @click="triggerActive(index)">{{item.name}}</a>
             <ul v-bind:class="{invisible:index != nowIndex || trigger}">
@@ -326,6 +327,7 @@
      * @param param
      */
     function getCartList(param) {
+        $("#test-value").val(JSON.stringify(param));
         if(!param.token) {
             return false;
         }
