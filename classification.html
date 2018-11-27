@@ -96,16 +96,13 @@
         },
         methods: {
             triggerActive: function (index,item) {
-                if(item.childs) {
-                    //有子类，展开
-                    if (index != this.nowIndex) {
-                        this.nowIndex = index;
-                        this.trigger = false;
-                    } else {
-                        this.trigger = !this.trigger;
-                    }
+                if (index != this.nowIndex) {
+                    this.nowIndex = index;
+                    this.trigger = false;
+                } else {
+                    this.trigger = !this.trigger;
                 }
-                else {
+                if(!item.childs) {
                     //无子类，请求数据
                     getGoodList(item.id, app.supplier_id);
                 }
