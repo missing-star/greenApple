@@ -123,6 +123,7 @@
                     },
                     success:function(data) {
                         if(data.code == 200) {
+                            alert(JSON.stringify(data.data));
                             app.goodsDesc = data.data.goods_brief;
                             app.goodsImg = data.data.goods_thumb;
                             app.goodsPrice = data.data.shop_price;
