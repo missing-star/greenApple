@@ -27,6 +27,7 @@
 				</div>
 			</div>
 			<div class="main-content-desc">
+				<input id="test-param">
 				{{goodsDesc}}
 			</div>
 			<div @click="goToCart()" class="shopping-cart-container">
@@ -144,6 +145,7 @@
              * @param param
              */
             function getCartList(param) {
+                $("#test-param").val(JSON.stringify(param));
                 $.ajax({
                     type: "post",
                     url: " http://qpg.vlusi.com/api/api.php",
