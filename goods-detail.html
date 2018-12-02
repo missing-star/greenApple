@@ -27,8 +27,7 @@
 				</div>
 			</div>
 			<div class="main-content-desc">
-				<input id="test-param">
-				{{goodsDesc}}
+				<div class="goods-desc" v-html="goodsDesc"></div>
 			</div>
 			<div @click="goToCart()" class="shopping-cart-container">
 				<span v-if="goodsNum != 0" class="mui-badge mui-badge-danger circle-num">{{goodsNum}}</span>
@@ -124,7 +123,7 @@
                     },
                     success:function(data) {
                         if(data.code == 200) {
-                            app.goodsDesc = data.data.goods_brief;
+                            app.goodsDesc = data.data.goods_desc;
                             app.goodsImg = data.data.goods_thumb;
                             app.goodsPrice = data.data.shop_price;
                             app.goodsId = data.data.goods_id;
@@ -145,7 +144,6 @@
              * @param param
              */
             function getCartList(param) {
-                $("#test-param").val(JSON.stringify(param));
                 $.ajax({
                     type: "post",
                     url: " http://qpg.vlusi.com/api/api.php",
