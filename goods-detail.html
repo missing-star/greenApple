@@ -58,7 +58,6 @@
                      * @param goodsId
                      */
 				    addToCart:function(goodsId) {
-                        console.log(`id=${goodsId}`)
 				        var goods = Base.encode(JSON.stringify({
                             "quick": 1,
                             "spec": [],
@@ -66,6 +65,9 @@
                             "number": "1",
                             "parent": 0
                         }));
+                        if(!app.token) {
+                            return false;
+                        }
                         $.ajax({
                             type:"post",
                             url:" http://qpg.vlusi.com/api/api.php",
@@ -144,6 +146,10 @@
              * @param param
              */
             function getCartList(param) {
+                if(!param.token) {
+                    mui.toast('请登录后操作!');
+                    return false;
+                }
                 $.ajax({
                     type: "post",
                     url: " http://qpg.vlusi.com/api/api.php",
