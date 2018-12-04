@@ -40,7 +40,6 @@
 			<div class="menu-ticket">
 				<div class="menu-title">
 					菜单小票
-					<input id="test-value">
 				</div>
 				<div class="menu-content">
 					<table>
@@ -142,7 +141,6 @@
 			});
 
 			function getOrderInfo(param) {
-			    $("#test-value").val(JSON.stringify(param));
 			    if(param.time) {
 			        app.preTime = param.time;
 				}
