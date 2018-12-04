@@ -66,7 +66,7 @@
                             "number": "1",
                             "parent": 0
                         }));
-                        if(!app.token) {
+                        if(!app.token || app.token == 'undefined') {
                             mui.toast('请登录后操作!');
                             return false;
                         }
@@ -152,7 +152,7 @@
              * @param param
              */
             function getCartList(param) {
-                if(!param.token) {
+                if(!param.token || param.token == 'undefined') {
                     return false;
                 }
                 $.ajax({
