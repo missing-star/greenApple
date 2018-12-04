@@ -66,6 +66,7 @@
                             "parent": 0
                         }));
                         if(!app.token) {
+                            mui.toast('请登录后操作!');
                             return false;
                         }
                         $.ajax({
@@ -147,7 +148,6 @@
              */
             function getCartList(param) {
                 if(!param.token) {
-                    mui.toast('请登录后操作!');
                     return false;
                 }
                 $.ajax({
