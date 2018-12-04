@@ -12,7 +12,7 @@
 	<body>
 		<div id="app" class="mui-content">
 			<div class="top">
-				<!--<i onclick="javascript:history.back(-1)" class="mui-back-icon mui-icon mui-icon-arrowleft"></i>-->
+				<i v-if="isBack" onclick="javascript:history.back(-1)" class="mui-back-icon mui-icon mui-icon-arrowleft"></i>
 				<img :src="goodsImg" />
 			</div>
 			<div class="main-content">
@@ -50,7 +50,8 @@
                     goodsPrice:'',
                     goodsDesc:'',
 					goodsId:'',
-					goodsNum:0
+					goodsNum:0,
+					isBack:false
 				},
 				methods:{
                     /**
@@ -112,6 +113,9 @@
 			 * 获取商品详情
              */
 			function getGoodsDetail(param) {
+			    if(param.flag) {
+			        app.isBack = true;
+				}
 			    app.token = param.token;
 			    app.transfer_key = param.transfer_key;
                 $.ajax({
