@@ -98,11 +98,22 @@
             success: function (data) {
                 if (data.code == 200) {
                     data.data.forEach(function (value,index,array) {
-                       app.recordList.push({
-                           date:transformTime(parseInt(value.change_time)),
-                           money:value.user_money,
-                           type:value.change_type_show
-                       });
+                        switch (value.data.account_type) {
+                            case 'money':
+                                app.recordList.push({
+                                    date:transformTime(parseInt(value.change_time)),
+                                    money:value.user_money,
+                                    type:value.change_type_show
+                                });
+                                break;
+                            case 'huacai' :
+                                app.recordList.push({
+                                    date:transformTime(parseInt(value.change_time)),
+                                    money:value.user_huacai,
+                                    type:value.change_type_show
+                                });
+                                break;
+                        }
                     });
                     $("#loading").hide();
                 }
