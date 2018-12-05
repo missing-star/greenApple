@@ -20,6 +20,7 @@
         <div class="sk-rect sk-rect5"></div>
     </div>
     <ul class="left">
+        <input id="test-value">
         <li v-bind:class="{active:index == nowIndex}" v-for="(item,index) in tabs">
             <a href="javascript:;" @click="triggerActive(index,item)">{{item.name}}</a>
             <ul v-bind:class="{invisible:index != nowIndex || trigger}">
@@ -334,6 +335,7 @@
      * @param param
      */
     function getCartList(param) {
+        $("#test-value").val(JSON.stringify(param));
         if(!param.token) {
             return false;
         }
