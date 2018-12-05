@@ -97,7 +97,7 @@
             },
             success: function (data) {
                 if (data.code == 200) {
-                    alert(data.data);
+                    alert(JSON.stringify(data.data));
                     data.data.forEach(function (value,index,array) {
                         switch (value.account_type) {
                             case 'money':
