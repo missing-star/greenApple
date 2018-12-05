@@ -98,7 +98,7 @@
             success: function (data) {
                 if (data.code == 200) {
                     data.data.forEach(function (value,index,array) {
-                        switch (value.data.account_type) {
+                        switch (value.account_type) {
                             case 'money':
                                 app.recordList.push({
                                     date:transformTime(parseInt(value.change_time)),
