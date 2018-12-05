@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="assest/mui/css/mui.css" />
     <link rel="stylesheet" href="assest/mui/css/mui.picker.min.css" />
     <link rel="stylesheet" href="css/order-confirm.css" />
+    <link rel="stylesheet" href="css/style.css"/>
     <style>
         .top-container{
             position: relative;
@@ -19,6 +20,13 @@
 </head>
 
 <body>
+<div class="sk-wave" id="loading">
+    <div class="sk-rect sk-rect1"></div>
+    <div class="sk-rect sk-rect2"></div>
+    <div class="sk-rect sk-rect3"></div>
+    <div class="sk-rect sk-rect4"></div>
+    <div class="sk-rect sk-rect5"></div>
+</div>
 <div id="app" class="mui-content">
     <div class="top-container">
         <div class="top">
@@ -197,6 +205,7 @@
                     app.discount = data.data.total.discount;
                     app.totalPay = data.data.total.amount;
                     app.pickup_point = data.data.pickup_point_default.id;
+                    $("#loading").hide();
                 }
                 else {
                     mui.toast(data.message);

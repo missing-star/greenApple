@@ -7,10 +7,18 @@
     <title>选择城市</title>
     <link rel="stylesheet" href="assest/mui/css/mui.css"/>
     <link rel="stylesheet" href="css/city-choice.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
     <script type="text/javascript" src="js/sha1.js"></script>
 </head>
 
 <body>
+<div class="sk-wave" id="loading">
+    <div class="sk-rect sk-rect1"></div>
+    <div class="sk-rect sk-rect2"></div>
+    <div class="sk-rect sk-rect3"></div>
+    <div class="sk-rect sk-rect4"></div>
+    <div class="sk-rect sk-rect5"></div>
+</div>
 <div id="app" class="mui-content">
     <div class="now-position now-position-top">
         <div class="now-position-title">
@@ -107,6 +115,7 @@
                         lat: city.latitude
                     });
                 });
+                $("#loading").hide();
             },
             error: function () {
                 mui.toast('服务器异常!');
