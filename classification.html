@@ -20,7 +20,6 @@
         <div class="sk-rect sk-rect5"></div>
     </div>
     <ul class="left">
-        <input id="test-value">
         <li v-bind:class="{active:index == nowIndex}" v-for="(item,index) in tabs">
             <a href="javascript:;" @click="triggerActive(index,item)">{{item.name}}</a>
             <ul v-bind:class="{invisible:index != nowIndex || trigger}">
@@ -236,7 +235,7 @@
     //获取分类列表
     transformParams(getClassList);
     //获取购物车列表
-    // transformParams(getCartList);
+    transformParams(getCartList);
     //下拉回调函数
     var downFunc = function () {
         getGoodList(app.catId, app.supplier_id, true);
@@ -335,8 +334,6 @@
      * @param param
      */
     function getCartList(param) {
-        alert(JSON.stringify(param));
-        $("#test-value").val(JSON.stringify(param));
         if(!param.token) {
             return false;
         }
