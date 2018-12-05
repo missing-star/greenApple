@@ -335,6 +335,7 @@
      * @param param
      */
     function getCartList(param) {
+        alert(JSON.stringify(param));
         $("#test-value").val(JSON.stringify(param));
         if(!param.token) {
             return false;
