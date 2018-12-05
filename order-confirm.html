@@ -177,6 +177,9 @@
 						else {
 						    mui.toast(data.message);
 						}
+                    },
+					err:function () {
+						mui.toast('服务器异常!');
                     }
 				})
             }
