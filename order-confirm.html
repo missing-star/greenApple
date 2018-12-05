@@ -164,6 +164,7 @@
 					},
 					success:function (data) {
 						if(data.code == 200) {
+						    alert(data.data.pickup_point_default.id);
 							app.marketName = data.data.pickup_point_default.shop_name;
 							app.address = data.data.pickup_point_default.address;
 							app.phone = data.data.pickup_point_default.phone;
