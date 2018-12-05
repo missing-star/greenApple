@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>联系我们</title>
     <link rel="stylesheet" href="assest/mui/css/mui.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="assest/mui/js/mui.min.js"></script>
     <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
@@ -40,6 +41,13 @@
     </style>
 </head>
 <body>
+<div class="sk-wave" id="loading">
+    <div class="sk-rect sk-rect1"></div>
+    <div class="sk-rect sk-rect2"></div>
+    <div class="sk-rect sk-rect3"></div>
+    <div class="sk-rect sk-rect4"></div>
+    <div class="sk-rect sk-rect5"></div>
+</div>
 <div id="app">
     <div id="speak">
         <header>
@@ -87,6 +95,7 @@
                     app.enterpriseInfo = data.data.content;
                     app.phone = data.data.author_email;
                     app.email = data.data.author_tel;
+                    $("#loading").hide();
                 }
                 else {
                     mui.toast(data.message);
