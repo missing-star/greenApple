@@ -48,7 +48,7 @@
             justify-content: center;
             -webkit-justify-content: center;
         }
-        div.color-stronger{
+        span.color-stronger{
             color: red !important;
         }
     </style>
@@ -62,12 +62,12 @@
     <div class="sk-rect sk-rect5"></div>
 </div>
 <div id="app">
-    <div v-for="item in recordList" class="div-f" :class="{'color-stronger':item.type.indexOf('分成') != -1}">
+    <div v-for="item in recordList" class="div-f">
         <span class="f-span">
 				{{item.date}}
         </span>
         <div class="f-d">
-            <span style="font-size: 1.2em;color: #57cd57;">{{item.money}}￥</span>
+            <span :class="{'color-stronger':item.type.indexOf('分成') != -1}" style="font-size: 1.2em;color: #57cd57;">{{item.money}}￥</span>
             <br/>
             <span style="font-size: 0.5em; color: #999999;position: relative;left: 30%;">{{item.type}}</span>
         </div>
