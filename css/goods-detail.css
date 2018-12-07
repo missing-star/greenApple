@@ -28,6 +28,7 @@ body {
 .market-price{
 	text-decoration: line-through;
 	padding-left: 10px;
+	color: #cccccc;
 }
 .mian-content-price {
 	display: flex;
