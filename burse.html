@@ -264,6 +264,7 @@
                 signature: SHA2(`act=chongzhi_list&token=${param.token}${param.transfer_key}`)
             },
             success: function (data) {
+                alert(JSON.stringify(data.data.chongzhi_goods));
                 app.balance = data.data.user_money;
                 app.huacai_voucher = data.data.user_huacai;
                 app.balanceList = data.data.chongzhi_goods;
