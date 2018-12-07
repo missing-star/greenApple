@@ -25,7 +25,10 @@ body {
 .price {
 	color: #E83C3A;
 }
-
+.market-price{
+	text-decoration: line-through;
+	padding-left: 10px;
+}
 .mian-content-price {
 	display: flex;
 	align-items: center;

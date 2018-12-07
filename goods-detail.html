@@ -31,6 +31,7 @@
 					<span class="price">
 						￥{{goodsPrice}}
 					</span>
+            <span class="market-price">{{￥marketPrice}}</span>
             <button @click="addToCart(goodsId)" class="mui-btn mui-btn-green">加入购物车</button>
         </div>
     </div>
@@ -56,6 +57,7 @@
             goodsName: '',
             goodsImg: '',
             goodsPrice: '',
+            marketPrice: '',
             goodsDesc: '',
             goodsId: '',
             goodsNum: 0,
@@ -142,6 +144,7 @@
                     app.goodsDesc = data.data.goods_desc;
                     app.goodsImg = data.data.goods_thumb;
                     app.goodsPrice = data.data.shop_price;
+                    app.marketPrice = data.data.market_price;
                     app.goodsId = data.data.goods_id;
                     app.goodsName = data.data.goods_name;
                     $("#loading").hide();

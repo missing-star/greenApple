@@ -48,6 +48,9 @@
             justify-content: center;
             -webkit-justify-content: center;
         }
+        div.color-stronger{
+            color: red !important;
+        }
     </style>
 </head>
 <body>
@@ -59,7 +62,7 @@
     <div class="sk-rect sk-rect5"></div>
 </div>
 <div id="app">
-    <div v-for="item in recordList" class="div-f">
+    <div v-for="item in recordList" class="div-f" :class="{'color-stronger':item.type.indexOf('分成') != -1}">
         <span class="f-span">
 				{{item.date}}
         </span>
