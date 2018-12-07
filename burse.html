@@ -180,23 +180,12 @@
         <div id='bd'>
             <span>余额充值</span>
             <br/>
-            <!--<div class="charge-container">-->
-                <!--<div @click="choose(item.price,$event,0,item.id)" class="charge-item" v-for="item in balanceList">-->
-                    <!--<p class="dashed-line">-->
-                        <!--<template v-for="n in 800">-</template>-->
-                    <!--</p>-->
-                    <!--<p class="charge-content">{{item.name}}</p>-->
-                    <!--<p class="dashed-line">-->
-                        <!--<template v-for="n in 800">-</template>-->
-                    <!--</p>-->
-                <!--</div>-->
-            <!--</div>-->
             <div class="charge-container">
-                <div v-for="n in 5" class="charge-item">
+                <div @click="choose(item.price,$event,0,item.id)" class="charge-item" v-for="item in balanceList">
                     <p class="dashed-line">
                         <template v-for="n in 800">-</template>
                     </p>
-                    <p class="charge-content">充4000送500</p>
+                    <p class="charge-content">{{item.name}}</p>
                     <p class="dashed-line">
                         <template v-for="n in 800">-</template>
                     </p>
