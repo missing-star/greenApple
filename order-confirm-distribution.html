@@ -209,6 +209,9 @@
                     app.discount = data.data.total.discount;
                     app.totalPay = data.data.total.amount;
                     app.pickup_point = data.data.pickup_point_default.id;
+                    app.userName = data.data.consignee.consignee == null ? data.data.consignee.consignee : '';
+                    app.userAddress = data.data.consignee.address == null ? data.data.consignee.address : '';
+                    app.userPhone = data.data.consignee.mobile == null ? data.data.consignee.mobile : '';
                     $("#loading").hide();
                 }
                 else {
