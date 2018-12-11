@@ -165,6 +165,9 @@ td {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+p.enough-money{
+	color: red;
+}
 
 table {
 	table-layout: fixed;
