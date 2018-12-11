@@ -28,7 +28,6 @@
             {{goodsName}}
         </article>
         <div class="mian-content-price">
-            <input id="test-value">
 					<span class="price">
 						￥{{goodsPrice}}
 					</span>
@@ -125,7 +124,6 @@
      * 获取商品详情
      */
     function getGoodsDetail(param) {
-        $('#test-value').val(JSON.stringify(param));
         if (param.flag) {
             app.isBack = true;
         }
