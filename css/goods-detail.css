@@ -76,7 +76,7 @@ i.mui-back-icon.mui-icon.mui-icon-arrowleft {
 	z-index: 999;
 }
 .goods-desc *{
-	padding:auto 15px;
+	padding:auto 15px !important;
 }
 
 .goods-desc img{
