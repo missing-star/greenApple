@@ -75,11 +75,8 @@ i.mui-back-icon.mui-icon.mui-icon-arrowleft {
 	color: #FFFFFF;
 	z-index: 999;
 }
-.goods-desc {
-	padding: 15px;
-}
 
 .goods-desc img{
 	width: 100% !important;
-	margin: -15px !important;
+
 }
