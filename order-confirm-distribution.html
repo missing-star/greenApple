@@ -36,7 +36,7 @@
                     <span>{{marketName}}</span>
                 </p>
                 <p>{{address}}<span class="warning-info">（超过3公里不配送）</span></p>
-                <p class="enough-money">满{{enoughMoney}}元配送</p>
+                <p class="enough-money">金额满{{enoughMoney}}次日配送上门</p>
                 <input v-model="userName" class="user-info" type="text" placeholder="请填写收货人姓名"/>
                 <input oninput="if(this.value.length > 11) this.value = this.value.slice(0,11)" v-model="userPhone" type="number" class="user-info" type="text" placeholder="请填写收货人联系电话"/>
                 <textarea v-model="userAddress" class="user-info" placeholder="请填写收货人详细地址"></textarea>
